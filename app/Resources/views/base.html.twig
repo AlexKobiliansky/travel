@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+        <title>{% block title %}Travel blog{% endblock %}</title>
+
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            {% block navigation %}{% endblock %}
+        </header>
+
+            <div class="row">
+                <div class="col-sm-9">
+                    {% block body %}{% endblock %}
+                </div>
+
+                <div class="col-sm-3">
+                    {% block sidebar %}{% endblock %}
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                {% block footer %}
+                    created by Alex Kobilianskiy
+                {% endblock %}
+            </div>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
