@@ -14,25 +14,26 @@
         <header>
             {% block navigation %}
                 <ul class="nav nav-pills">
-                    <li role="presentation" class="active"><a href="#">Home</a></li>
-                    <li role="presentation"><a href="#">About</a></li>
-                    <li role="presentation"><a href="#">Contact</a></li>
+                    <li role="presentation" class="active"><a href="{{ path('homepage') }}">Home</a></li>
+                    <li role="presentation"><a href="{{ path ('about')}}">About</a></li>
+                    <li role="presentation"><a href="{{ path('contact') }}">Contact</a></li>
                 </ul>
             {% endblock %}
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h2>{% block blog_title %}<a href="#">My blog about travelling</a>{% endblock %}</h2>
+                    <h2>{% block blog_title %}<a href="{{ path('homepage') }}">My blog about travelling</a>{% endblock %}</h2>
                 </div>
 
                 <div class="panel-body">
-                    <h3>{% block blog_tagline %}<a href="#">Some text</a>{% endblock %}</h3>
+                    <h3>{% block blog_tagline %}Simple blog created by <a href="https://github.com/AlexKobiliansky">Alex Kobilianskiy</a>{% endblock %}</h3>
                 </div>
             </div>
         </header>
 
             <div class="row">
                 <div class="col-sm-9">
+                    {% block page_title %}{% endblock %}
                     {% block body %}{% endblock %}
                 </div>
 

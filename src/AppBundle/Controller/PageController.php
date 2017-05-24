@@ -16,4 +16,20 @@ class PageController extends Controller
     {
         return $this->render('Page/index.html.twig');
     }
+
+    /**
+     * @Route ("/about", name="about")
+     */
+    public function aboutAction()
+    {
+        return $this->render('Page/about.html.twig');
+    }
+
+    /**
+     * @Route ("about", name="contact")
+     */
+    public function contactAction()
+    {
+        return $this->render('Page/contact.html.twig');
+    }
 }
