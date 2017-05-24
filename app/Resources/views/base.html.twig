@@ -4,11 +4,31 @@
         <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
         <title>{% block title %}Travel blog{% endblock %}</title>
 
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link href ="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+        {% endblock %}
     </head>
+
     <body>
+    <div class = "container">
         <header>
-            {% block navigation %}{% endblock %}
+            {% block navigation %}
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                    <li role="presentation"><a href="#">About</a></li>
+                    <li role="presentation"><a href="#">Contact</a></li>
+                </ul>
+            {% endblock %}
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2>{% block blog_title %}<a href="#">My blog about travelling</a>{% endblock %}</h2>
+                </div>
+
+                <div class="panel-body">
+                    <h3>{% block blog_tagline %}<a href="#">Some text</a>{% endblock %}</h3>
+                </div>
+            </div>
         </header>
 
             <div class="row">
@@ -26,6 +46,7 @@
                     created by Alex Kobilianskiy
                 {% endblock %}
             </div>
+    </div>
 
         {% block javascripts %}{% endblock %}
     </body>
