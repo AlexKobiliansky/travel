@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class PageController extends Controller
 {
     /**
@@ -26,7 +25,7 @@ class PageController extends Controller
     }
 
     /**
-     * @Route ("about", name="contact")
+     * @Route ("/contact", name="contact")
      */
     public function contactAction()
     {
