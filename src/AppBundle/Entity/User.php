@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -83,6 +84,24 @@ class User
      * @ORM\Column(name="date_of_birth", type="date")
      */
     private $dateOfBirth;
+
+    /**
+     * @ORM\OneToMany(targetEntity = "Comment", mappedBy="$user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Article", inversedBy="users")
+     * @ORM\JoinTable(name="user_article")
+     */
+    private $articles;
+
+
+    public function __constuct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+    }
 
 
     /**

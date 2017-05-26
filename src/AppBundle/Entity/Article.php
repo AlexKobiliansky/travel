@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Article
@@ -69,6 +70,35 @@ class Article
      * @ORM\Column(name="likes", type="integer", nullable=true)
      */
     private $likes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="articles")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     */
+    private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="articles")
+     * @ORM\JoinTable(name="article_tag")
+     */
+    private $tags;
+
+    private function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
 
     /**
