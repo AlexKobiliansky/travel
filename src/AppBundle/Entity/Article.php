@@ -289,6 +289,11 @@ class Article
         return $this;
     }
 
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
     public function getTags()
     {
         return $this->tags;

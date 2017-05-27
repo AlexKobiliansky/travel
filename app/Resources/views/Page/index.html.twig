@@ -1,1 +1,23 @@
 {% extends 'layout.html.twig' %}
+
+{% block body %}
+
+    {% for article in articles %}
+
+        <div class="date">
+            <time datetime="{{ article.dateCreated|date('c') }}">{{ article.dateCreated|date('l, F j, Y') }}</time>
+        </div>
+
+        <header>
+        <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
+        </header>
+
+        <p>{{ article.content }}</p>
+        <footer class="meta">
+            <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
+        </footer>
+
+    {% else %}
+        <p>There are no articles yet</p>
+    {% endfor %}
+{% endblock %}

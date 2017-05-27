@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 //use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -30,7 +31,5 @@ class ArticleController extends Controller
             return $this->render('Article/show.html.twig', array(
                 'article' => $article,
             ));
-
-
     }
 }
