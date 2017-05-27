@@ -46,7 +46,7 @@ class Category
     private $parent;
 
 
-    private function __construct()
+    public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->children = new ArrayCollection();
@@ -84,5 +84,21 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setParent(Category $parent)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

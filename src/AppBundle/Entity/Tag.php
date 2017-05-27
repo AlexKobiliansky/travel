@@ -34,7 +34,7 @@ class Tag
      */
     private $articles;
 
-    private function __construct()
+    public function __construct()
     {
         $this->articles = new ArrayCollection();
     }
@@ -72,5 +72,15 @@ class Tag
     public function getName()
     {
         return $this->name;
+    }
+
+    public function addArticle(Article $articles)
+    {
+        if (!$this->articles->contains($articles)) {
+            $this->articles[] = $articles;
+            $articles->addTag($this);
+        }
+
+        return $this;
     }
 }

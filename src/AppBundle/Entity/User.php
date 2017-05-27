@@ -60,7 +60,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=20)
+     * @ORM\Column(name="phone", type="string", length=30)
      */
     private $phone;
 
@@ -328,5 +328,20 @@ class User
     public function getDateOfBirth()
     {
         return $this->dateOfBirth;
+    }
+
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $articles)
+    {
+        if (!$this->articles->contains($articles)) {
+            $this->articles[] = $articles;
+            $articles->addAuthor($this);
+        }
+
+        return $this;
     }
 }

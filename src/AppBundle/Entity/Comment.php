@@ -198,4 +198,26 @@ class Comment
     {
         return $this->likes;
     }
+
+    public function setArticle(Article $article)
+    {
+        $this->article = $article;
+        return $this;
+    }
+
+    public function getArticle()
+    {
+        return $this->article;
+    }
+
+    public function setAuthor(User $user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getAuthor()
+    {
+        return $this->user;
+    }
 }

@@ -53,7 +53,7 @@ class Article
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_updated", type="datetime")
+     * @ORM\Column(name="date_updated", type="datetime", nullable=true)
      */
     private $dateUpdated;
 
@@ -93,7 +93,7 @@ class Article
      */
     private $tags;
 
-    private function __construct()
+    public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -277,5 +277,35 @@ class Article
     public function getLikes()
     {
         return $this->likes;
+    }
+
+    public function addAuthor(User $users)
+    {
+        if (!$this->users->contains($users)) {
+            $this->users[] = $users;
+            $users->addArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function addTag(Tag $tags)
+    {
+        if (!$this->tags->contains($tags)) {
+            $this->tags[] = $tags;
+            $tags->addArticle($this);
+        }
+        return $this;
+    }
+
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
