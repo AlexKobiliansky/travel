@@ -12,7 +12,8 @@
         <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
         </header>
 
-        <p>{{ article.content }}</p>
+        <p>{{ article.content(300) }}</p>
+        <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
         <footer class="meta">
             <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
         </footer>
