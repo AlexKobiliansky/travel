@@ -289,6 +289,11 @@ class Article
         return $this;
     }
 
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
     public function addTag(Tag $tags)
     {
         if (!$this->tags->contains($tags)) {
@@ -307,5 +312,10 @@ class Article
     public function getCategory()
     {
         return $this->category;
+    }
+
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
