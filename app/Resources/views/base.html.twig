@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+<<<<<<< HEAD
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
@@ -8,6 +9,56 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+=======
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+        <title>{% block title %}Travel blog{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link href ="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+        {% endblock %}
+    </head>
+
+    <body>
+    <div class = "container">
+        <header>
+            {% block navigation %}
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="{{ path('homepage') }}">Home</a></li>
+                    <li role="presentation"><a href="{{ path ('about')}}">About</a></li>
+                    <li role="presentation"><a href="{{ path('contact') }}">Contact</a></li>
+                </ul>
+            {% endblock %}
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2>{% block blog_title %}<a href="{{ path('homepage') }}">My blog about travelling</a>{% endblock %}</h2>
+                </div>
+
+                <div class="panel-body">
+                    <h3>{% block blog_tagline %}Simple blog created by <a href="https://github.com/AlexKobiliansky">Alex Kobilianskiy</a>{% endblock %}</h3>
+                </div>
+            </div>
+        </header>
+
+            <div class="row">
+                <div class="col-sm-9">
+                    {% block page_title %}{% endblock %}
+                    {% block body %}{% endblock %}
+                </div>
+
+                <div class="col-sm-3">
+                    {% block sidebar %}{% endblock %}
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                {% block footer %}
+                    created by Alex Kobilianskiy
+                {% endblock %}
+            </div>
+    </div>
+
+>>>>>>> dev
         {% block javascripts %}{% endblock %}
     </body>
 </html>
