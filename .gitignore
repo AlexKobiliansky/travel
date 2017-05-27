@@ -15,3 +15,7 @@
 /vendor/
 /web/bundles/
 .idea/
+<<<<<<< HEAD
+=======
+.php_cs.cache
+>>>>>>> dev
