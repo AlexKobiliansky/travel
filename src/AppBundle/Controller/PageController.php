@@ -37,4 +37,15 @@ class PageController extends Controller
     {
         return $this->render('Page/contact.html.twig');
     }
+
+    public function sidebarAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $tags = $em->getRepository('AppBundle:Tag')->getTags();
+
+        return $this->render('Page/sidebar.html.twig', array(
+            'tags' => $tags
+        ));
+    }
 }

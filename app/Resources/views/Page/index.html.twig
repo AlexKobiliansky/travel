@@ -4,7 +4,7 @@
 
     {% for article in articles %}
         <div class="date">
-            <time datetime="{{ article.dateCreated|date('c') }}">{{ article.dateCreated|date('l, F j, Y') }}</time>
+            <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
         </div>
 
         <header>

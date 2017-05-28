@@ -1,0 +1,10 @@
+<header>
+    <h3>Tag Cloud</h3>
+</header>
+
+
+{% for tag in tags %}
+    {{ tag.name }}  
+{% else %}
+    <p>There are no tags</p>
+{% endfor %}
