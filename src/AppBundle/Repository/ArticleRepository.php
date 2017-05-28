@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 class ArticleRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getLatestArticles()

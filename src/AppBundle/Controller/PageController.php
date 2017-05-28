@@ -11,14 +11,18 @@ class PageController extends Controller
     /**
      * @Route ("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $articles = $em->getRepository('AppBundle:Article')->getLatestArticles();
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
+
         return $this->render('Page/index.html.twig', array(
-            'articles' => $articles
+            'articles' => $articles,
+            'pagination' => $pagination
         ));
     }
 
