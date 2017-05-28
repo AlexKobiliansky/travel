@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+
+        <header>
+           <time datetime="{{ article.dateCreated|date('c') }}">
+                    {{ article.dateCreated|date('l, F j, Y') }} </time>
+                <h5>Category: [{{ article.category }}]</h5>
+
+            <h2>{{ article.title }}</h2>
+        </header>
+        <div>
+            <p>{{ article.content }}</p>
+        </div>
+        <div>
+            <p>Posted by {% for user in article.users %} {{ user }}, {% endfor %} at {{ article.dateCreated|date('h:iA') }}</p>
+
+        </div>
+        <div>
+            <p>Tags: {% for tag in article.tags %} [#{{ tag }}]{% endfor %}
+        </div>
+
+{% endblock %}

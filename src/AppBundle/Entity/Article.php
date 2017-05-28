@@ -154,9 +154,13 @@ class Article
      *
      * @return string
      */
-    public function getContent()
+    public function getContent($length = null)
     {
-        return $this->content;
+        if (false === is_null($length) && $length > 0) {
+            return substr($this->content, 0, $length);
+        } else {
+            return $this->content;
+        }
     }
 
     /**
@@ -289,6 +293,16 @@ class Article
         return $this;
     }
 
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
     public function addTag(Tag $tags)
     {
         if (!$this->tags->contains($tags)) {
@@ -307,5 +321,10 @@ class Article
     public function getCategory()
     {
         return $this->category;
+    }
+
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

@@ -12,7 +12,6 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create();
-
         //creating comments. Total number of comments = 150
         for ($i = 1; $i <= 150; $i++) {
             //"$a" - article identifier
@@ -22,11 +21,13 @@ class CommentFixtures extends AbstractFixture implements OrderedFixtureInterface
             $b = rand(1, 10);
 
             $comment = new Comment();
-            $comment->setContent($faker->text($maxNbChars = 1000));
+            $comment->setContent($faker->text($maxNbChars = 100));
             $comment->setDateCreated($faker->dateTimeThisYear($max = "now"));
             $comment->setApproved(true);
-            $comment->setAuthor($this->getReference("user-{$b}"));
-            $comment->setArticle($this->getReference("article-{$a}"));
+            $comment->setAuthor($manager->merge($this->getReference("user-{$b}")));
+            $comment->setArticle($manager->merge($this->getReference("article-{$a}")));
+
+            $manager->persist($comment);
         }
 
         $manager->flush();
