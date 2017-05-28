@@ -44,8 +44,11 @@ class PageController extends Controller
 
         $tags = $em->getRepository('AppBundle:Tag')->getTags();
 
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
+
         return $this->render('Page/sidebar.html.twig', array(
-            'tags' => $tags
+            'tags' => $tags,
+            'categories' => $categories
         ));
     }
 }

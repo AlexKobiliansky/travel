@@ -4,7 +4,22 @@
 
 
 {% for tag in tags %}
-    {{ tag.name }}  
+    {{ tag.name }}
 {% else %}
     <p>There are no tags</p>
 {% endfor %}
+
+<header>
+    <h3>Categories</h3>
+</header>
+
+<ul>
+    {% for category in categories %}
+        {% if(category.parent == null) %}
+            <li>
+                {{ category.name }}
+                {% include 'Page/categories.html.twig' with {'categories':category.children} %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
