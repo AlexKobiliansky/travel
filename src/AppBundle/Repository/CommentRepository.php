@@ -14,4 +14,19 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function getLatestComments($limit)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c')
+            ->addOrderBy('c.dateCreated', 'DESC');
+
+        if (!is_null($limit)) {
+            $qb->setMaxResults($limit);
+        }
+
+        $comments = $qb->getQuery()->getResult();
+
+        return $comments;
+    }
 }

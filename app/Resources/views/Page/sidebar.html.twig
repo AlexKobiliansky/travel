@@ -23,3 +23,17 @@
         {% endif %}
     {% endfor %}
 </ul>
+
+<header>
+    <h3>Latest comments</h3>
+</header>
+
+{% for comment in latestComments %}
+     <p>
+         <b>{{ comment.author.name }} {{ comment.author.surname }}</b>
+         comented on <i><b>{{ comment.article.title }}:</b></i>
+         {{ comment.content }}
+     </p>
+{% else %}
+    <p>There are no comments</p>
+{% endfor %}

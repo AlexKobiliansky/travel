@@ -46,9 +46,12 @@ class PageController extends Controller
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
+        $latestComments = $em->getRepository('AppBundle:Comment')->getLatestComments(5);
+
         return $this->render('Page/sidebar.html.twig', array(
             'tags' => $tags,
-            'categories' => $categories
+            'categories' => $categories,
+            'latestComments' => $latestComments
         ));
     }
 }
