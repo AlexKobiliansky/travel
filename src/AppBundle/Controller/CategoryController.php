@@ -17,14 +17,18 @@ class CategoryController extends Controller
     /**
      * @Route("/list", name="category_list")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($categories, $request->query->get('page', 1), 10);
+
         return $this->render('Category/list.html.twig', array(
-            'categories' => $categories
+            'categories' => $categories,
+            'pagination' => $pagination
         ));
     }
 
@@ -40,7 +44,6 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             $category = $form->getData();
 
             $em = $this->getDoctrine()->getManager();
@@ -53,6 +56,5 @@ class CategoryController extends Controller
         return $this->render('Category/form.html.twig', array(
             'form' => $form->createView(),
         ));
-
     }
 }

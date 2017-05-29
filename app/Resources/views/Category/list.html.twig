@@ -13,7 +13,7 @@
             <th>Child category(ies)</th>
         </tr>
 
-        {% for category in categories %}
+        {% for category in pagination %}
 
         <tr>
             <td>{{ loop.index }}</td>
@@ -40,6 +40,10 @@
 
         {% endfor %}
     </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
 
 
