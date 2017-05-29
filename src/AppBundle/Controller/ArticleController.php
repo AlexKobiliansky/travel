@@ -18,8 +18,9 @@ class ArticleController extends Controller
      */
     public function showAction($id)
     {
-        $article = $this->getDoctrine()
-            ->getRepository('AppBundle:Article')
+        $em = $this->getDoctrine()->getManager();
+
+        $article = $em->getRepository('AppBundle:Article')
             ->find($id);
 
         if (!$article) {
@@ -27,9 +28,13 @@ class ArticleController extends Controller
                 'No article found with id '.$id
             );
         }
-//dump($article); die();
-            return $this->render('Article/show.html.twig', array(
+
+        $comments = $em->getRepository('AppBundle:Comment')
+            ->getCommentForArticle($article->getId());
+
+        return $this->render('Article/show.html.twig', array(
                 'article' => $article,
+                'comments' => $comments
             ));
     }
 }

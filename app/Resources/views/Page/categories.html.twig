@@ -1,0 +1,8 @@
+<ul>
+    {% for category in categories %}
+        <li>
+            {{ category.name }}
+            {% include 'Page/categories.html.twig' with {'categories':category.children} %}
+        </li>
+    {% endfor %}
+</ul>
