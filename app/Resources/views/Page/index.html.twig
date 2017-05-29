@@ -2,26 +2,27 @@
 
 {% block body %}
 
-    {% for article in articles %}
-
+    {% for article in pagination %}
         <div class="date">
-            <time datetime="{{ article.dateCreated|date('c') }}">{{ article.dateCreated|date('l, F j, Y') }}</time>
+            <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
         </div>
 
         <header>
-        <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
+            <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
         </header>
 
         <p>{{ article.content(300) }}</p>
         <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
+
         <footer class="meta">
             <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
         </footer>
 
-        {% for comment in article.comments %}{{ comment }} - {{ comment.author }}<br />
-{% endfor %}
-
     {% else %}
         <p>There are no articles yet</p>
     {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
