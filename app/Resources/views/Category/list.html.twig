@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <header>
+        <h3>Categories list</h3>
+    </header>
+
+    <table border="2">
+        <tr>
+            <th>№</th>
+            <th>Name</th>
+            <th>Parent category</th>
+            <th>Child category(ies)</th>
+        </tr>
+
+        {% for category in categories %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ category.name }}</td>
+
+            {% if category.parent %}
+                <td>{{ category.parent }}</td>
+            {% else %}
+                <td>---||---||---</td>
+            {% endif %}
+
+            {% if not category.parent %}
+                <td>
+                    {% for child in category.children %}
+                        {{ child }} <br />
+                    {% endfor %}
+                </td>
+            {% else %}
+                <td>---||---||---</td>
+            {% endif %}
+
+
+        </tr>
+
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+
