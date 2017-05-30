@@ -26,24 +26,13 @@ class CategoryController extends Controller
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($categories, $request->query->get('page', 1), 10);
 
-        return $this->render('Category/list.html.twig', array(
-            'categories' => $categories,
-            'pagination' => $pagination
-        ));
-    }
-
-    /**
-     * @Route ("/category_form", name="category_form")
-     */
-    public function newAction(Request $request)
-    {
         $category = new Category;
 
         $form = $this->createForm(CategoryType::class, $category);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $category = $form->getData();
 
             $em = $this->getDoctrine()->getManager();
@@ -53,8 +42,10 @@ class CategoryController extends Controller
             return $this->redirectToRoute('category_list');
         }
 
-        return $this->render('Category/form.html.twig', array(
-            'form' => $form->createView(),
+        return $this->render('Category/list.html.twig', array(
+            'categories' => $categories,
+            'pagination' => $pagination,
+            'form' => $form->createView()
         ));
     }
 }
