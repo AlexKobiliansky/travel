@@ -13,7 +13,7 @@
             <th>Child category(ies)</th>
         </tr>
 
-        {% for category in pagination %}
+        {% for category in categories %}
 
         <tr>
             <td>{{ loop.index }}</td>
@@ -35,6 +35,9 @@
                 <td>---||---||---</td>
             {% endif %}
 
+            <td><a href="{{ path('category_delete', {'id':category.id }) }}">delete</a></td>
+
+
 
         </tr>
 
@@ -42,7 +45,7 @@
     </table>
 
     <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+        {{ knp_pagination_render(categories) }}
     </div>
 
     {{ form_start(form) }}

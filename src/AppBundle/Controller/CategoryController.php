@@ -43,9 +43,21 @@ class CategoryController extends Controller
         }
 
         return $this->render('Category/list.html.twig', array(
-            'categories' => $categories,
-            'pagination' => $pagination,
+            'categories' => $pagination,
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("delete/{id}", name="category_delete", requirements = {"id":"\d+"})
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+        $em->remove($category);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('category_list'));
     }
 }
