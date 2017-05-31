@@ -1,0 +1,59 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <header>
+        <h3>Categories list</h3>
+    </header>
+
+    <table border="2">
+        <tr>
+            <th>№</th>
+            <th>Name</th>
+            <th>Parent category</th>
+            <th>Child category(ies)</th>
+        </tr>
+
+        {% for category in categories %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ category.name }}</td>
+
+            {% if category.parent %}
+                <td>{{ category.parent }}</td>
+            {% else %}
+                <td>---||---||---</td>
+            {% endif %}
+
+            {% if not category.parent %}
+                <td>
+                    {% for child in category.children %}
+                        {{ child }} <br />
+                    {% endfor %}
+                </td>
+            {% else %}
+                <td>---||---||---</td>
+            {% endif %}
+
+            <td><a href="{{ path('category_delete', {'id':category.id }) }}">delete</a></td>
+
+
+
+        </tr>
+
+        {% endfor %}
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(categories) }}
+    </div>
+
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}
+
+
+

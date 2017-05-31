@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Category
  *
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * @UniqueEntity(fields={"name"})
  */
 class Category
 {
@@ -26,6 +29,16 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100, unique=true)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "please enter categories name")
+     * @Assert\Length(
+     *     max = 30,
+     *     maxMessage = "Categories name cannot be longer then {{ limit }} characters"
+     * )
+     * @Assert\Regex(
+     *     pattern = "/^[a-zA-Z0-9-а-яА-Я]{1,}$/",
+     *     message = "Category name can contain text characters, numbers, and symbol '-' .Please enter valid value"
+     * )
      */
     private $name;
 

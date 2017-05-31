@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    {% for article in pagination %}
+    {% for article in articles %}
         <div class="date">
             <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
         </div>
@@ -23,6 +23,6 @@
     {% endfor %}
 
     <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+        {{ knp_pagination_render(articles) }}
     </div>
 {% endblock %}

@@ -21,8 +21,7 @@ class PageController extends Controller
         $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
 
         return $this->render('Page/index.html.twig', array(
-            'articles' => $articles,
-            'pagination' => $pagination
+            'articles' => $pagination
         ));
     }
 
