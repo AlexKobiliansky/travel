@@ -11,34 +11,34 @@
             <th>Name</th>
             <th>Parent category</th>
             <th>Child category(ies)</th>
+            <th colspan="2">Actions</th>
         </tr>
 
         {% for category in categories %}
 
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ category.name }}</td>
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ category.name }}</td>
 
-            {% if category.parent %}
-                <td>{{ category.parent }}</td>
-            {% else %}
-                <td>---||---||---</td>
-            {% endif %}
+                {% if category.parent %}
+                    <td>{{ category.parent }}</td>
+                {% else %}
+                    <td>---||---||---</td>
+                {% endif %}
 
-            {% if not category.parent %}
-                <td>
-                    {% for child in category.children %}
-                        {{ child }} <br />
-                    {% endfor %}
+                {% if not category.parent %}
+                    <td>
+                        {% for child in category.children %}
+                            {{ child }} <br />
+            {% endfor %}
+
                 </td>
             {% else %}
                 <td>---||---||---</td>
             {% endif %}
 
+            <td><a href="{{ path('category_update', {'id':category.id }) }}">edit</a></td>
             <td><a href="{{ path('category_delete', {'id':category.id }) }}">delete</a></td>
-
-
-
         </tr>
 
         {% endfor %}

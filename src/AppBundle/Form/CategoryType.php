@@ -21,7 +21,7 @@ class CategoryType extends AbstractType
 
             ->add('parent', EntityType::class, array(
                 'class'       => 'AppBundle:Category',
-                'placeholder' => 'choose a parent category',
+                'placeholder' => 'this category has no parent',
                 'required'    => false,
 
             ))

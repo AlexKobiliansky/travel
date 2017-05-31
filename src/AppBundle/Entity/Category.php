@@ -99,7 +99,7 @@ class Category
         return $this->name;
     }
 
-    public function setParent(Category $parent)
+    public function setParent($parent)
     {
         $this->parent = $parent;
         return $this;

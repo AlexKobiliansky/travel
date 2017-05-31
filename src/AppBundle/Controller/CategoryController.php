@@ -60,4 +60,34 @@ class CategoryController extends Controller
 
         return $this->redirect($this->generateUrl('category_list'));
     }
+
+    /**
+     * @Route("/update/{id}", requirements={"id":"\d+"}, name="category_update")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+
+        if (!$category) {
+            throw $this->createNotFoundException('Unable to find Category');
+        }
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category = $form->getData();
+
+            $em->persist($category);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('category_list'));
+        }
+
+        return $this->render('Category\update.html.twig', array(
+            'category' => $category,
+            'form' => $form->createView(),
+        ));
+    }
 }
