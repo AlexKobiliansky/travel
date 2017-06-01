@@ -5,8 +5,8 @@
         <h3>Categories list</h3>
     </header>
 
-    <table border="2">
-        <tr>
+    <table class="table table-hover">
+        <tr class="active">
             <th>№</th>
             <th>Name</th>
             <th>Parent category</th>
@@ -15,36 +15,36 @@
         </tr>
 
         {% for category in categories %}
-
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ category.name }}</td>
-
-                {% if category.parent %}
-                    <td>{{ category.parent }}</td>
-                {% else %}
-                    <td>---||---||---</td>
-                {% endif %}
-
-                {% if not category.parent %}
-                    <td>
-                        {% for child in category.children %}
-                            {{ child }} <br />
-            {% endfor %}
-
-                </td>
-            {% else %}
-                <td>---||---||---</td>
+            {% if loop.index % 2 == 0 %}
+                <tr class = "info">
             {% endif %}
+                    <td>{{ loop.index }}</td>
+                    <td>{{ category.name }}</td>
 
-            <td><a href="{{ path('category_update', {'id':category.id }) }}">edit</a></td>
-            <td><a href="{{ path('category_delete', {'id':category.id }) }}">delete</a></td>
-        </tr>
+                    {% if category.parent %}
+                        <td>{{ category.parent }}</td>
+                    {% else %}
+                        <td>---||---||---</td>
+                    {% endif %}
+
+                    {% if not category.parent %}
+                        <td>
+                            {% for child in category.children %}
+                                {{ child }} <br />
+                            {% endfor %}
+                        </td>
+                    {% else %}
+                        <td>---||---||---</td>
+                    {% endif %}
+
+                    <td><a href="{{ path('category_update', {'id':category.id }) }}">edit</a></td>
+                    <td><a href="{{ path('category_delete', {'id':category.id }) }}">delete</a></td>
+                </tr>
 
         {% endfor %}
     </table>
 
-    <div class="navigation">
+    <div class="pager">
         {{ knp_pagination_render(categories) }}
     </div>
 

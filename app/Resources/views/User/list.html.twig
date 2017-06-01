@@ -1,0 +1,47 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <header>
+        <h3>Users list</h3>
+    </header>
+
+    <table class="table table-hover">
+        <tr class="active">
+            <th>№</th>
+            <th>Avatar</th>
+            <th>Login</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Date of birth</th>
+            <th colspan="2">Actions</th>
+        </tr>
+
+        {% for user in users %}
+            {% if loop.index % 2 == 0 %}
+                <tr class="info">
+            {% endif %}
+                <td>{{ loop.index }}</td>
+                {% if not user.avatar %}
+                    <td><img src="{{ asset('avatars/no_avatar.jpg')}}" width="60"></td>
+                {% else %}
+                    <td><img src="{{ asset('web/avatars'~ user.avatar )}}" width="60"></td>
+                {% endif %}
+                <td>{{ user.login }}</td>
+                <td>{{ user.name }} {{ user.surname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.dateOfBirth|date('j.m.Y') }}</td>
+                <td>edit</td>
+                <td>delete</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pager">
+       <li> {{ knp_pagination_render(users) }}</li>
+    </div>
+
+{% endblock %}
