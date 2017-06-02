@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 
 /**
  * Class UserController
@@ -28,6 +30,33 @@ class UserController extends Controller
         return $this->render('User/list.html.twig', array(
             'users' => $pagination,
 
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/create", name="user_create")
+     */
+    public function createAction(Request $request)
+    {
+        $user = new User;
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('User/create.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 }

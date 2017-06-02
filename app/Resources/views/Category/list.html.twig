@@ -18,7 +18,7 @@
             {% if loop.index % 2 == 0 %}
                 <tr class = "info">
             {% endif %}
-                    <td>{{ loop.index }}</td>
+                    <td>{{ loop.index + (10*categories.currentPageNumber - 10) }}</td>
                     <td>{{ category.name }}</td>
 
                     {% if category.parent %}
