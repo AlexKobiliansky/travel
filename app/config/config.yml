@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    avatar_directory: '%kernel.root_dir%/../web/avatars'
+    app.path.avatar_images: '/avatars'
 
 framework:
     #esi: ~
@@ -91,7 +91,9 @@ vich_uploader:
 
     mappings:
         avatar_image:
-            uri_prefix:          /avatars
+            uri_prefix:          '%app.path.avatar_images%'
             upload_destination:  '%kernel.root_dir%/../web/avatars'
             namer:               vich_uploader.namer_uniqid
             inject_on_load:      true
+
+

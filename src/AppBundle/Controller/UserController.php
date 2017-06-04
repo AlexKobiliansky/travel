@@ -87,7 +87,7 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User');
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ["validation_groups" => "edit"]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

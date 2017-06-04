@@ -105,7 +105,7 @@ class User
     private $address;
 
     /**
-     * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar")
+     * @Vich\UploadableField(mapping="avatar_images", fileNameProperty="avatar")
      *
      * @var File
      */
@@ -396,18 +396,18 @@ class User
     }
 
     /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $avatar
      *
      * @return User
      */
-    public function setAvatarFile(File $image = null)
+    public function setAvatarFile(File $avatar = null)
     {
-        $this->avatarFile = $image;
+        $this->avatarFile = $avatar;
 
-        if ($image) {
+        if ($avatar) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new \DateTime('now');
         }
 
         return $this;
