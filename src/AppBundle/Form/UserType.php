@@ -27,7 +27,7 @@ class UserType extends AbstractType
                 'required' => false,
             ))
 
-            ->add('avatar', FileType::class, array(
+            ->add('avatarFile', FileType::class, array(
                 'required' => false,
             ))
 
