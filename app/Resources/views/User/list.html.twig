@@ -26,7 +26,7 @@
                 {% if not user.avatar %}
                     <td><img src="{{ asset('avatars/no_avatar.jpg')}}" width="60"></td>
                 {% else %}
-                    <td><img src="{{ asset('web/avatars'~ user.avatar )}}" width="60"></td>
+                    <td><img src="{{ asset('avatars/'~ user.avatar )}}" width="60"></td>
                 {% endif %}
                 <td>{{ user.login }}</td>
                 <td>{{ user.name }} {{ user.surname }}</td>

@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields={"login", "email"}, message="This value is already used. Please choose a unique value" )
+ * @UniqueEntity(fields={"email"}, message="This value is already used. Please choose a unique value" )
  */
 class User
 {
@@ -26,6 +30,12 @@ class User
      * @var string
      *
      * @ORM\Column(name="login", type="string", length=50, unique=true)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "please enter your login")
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "your login cannot be longer then {{ limit }} characters"
+     * )
      */
     private $login;
 
@@ -33,6 +43,14 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=50)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "please enter your password")
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 50,
+     *     minMessage = "your password must contain at least {{ limit }} characters",
+     *     maxMessage = "your password cannot be longer then {{ limit }} characters"
+     * )
      */
     private $password;
 
@@ -40,6 +58,9 @@ class User
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "please enter your first name")
+     * @Assert\Regex("/^[a-zA-Z]+$/")
      */
     private $name;
 
@@ -47,6 +68,9 @@ class User
      * @var string
      *
      * @ORM\Column(name="surname", type="string", length=50)
+     * @Assert\Type("string")
+     * @Assert\NotBlank(message = "please enter your second name")
+     * @Assert\Regex("/^[a-zA-Z]+$/")
      */
     private $surname;
 
@@ -54,6 +78,8 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=75, unique=true)
+     * @Assert\NotBlank(message = "please enter your second name")
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
@@ -61,6 +87,8 @@ class User
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=30)
+     * @Assert\NotBlank(message = "please enter your second name")
+     * @Assert\Type("string")
      */
     private $phone;
 
@@ -68,6 +96,8 @@ class User
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
+     * * @Assert\NotBlank(message = "please enter your second name")
+     * @Assert\Type("string")
      */
     private $address;
 
@@ -75,6 +105,20 @@ class User
      * @var string
      *
      * @ORM\Column(name="avatar", type="text", nullable=true)
+     * * @Assert\Image(
+     *     minWidth = 100,
+     *     maxWidth = 500,
+     *     minHeight = 100,
+     *     maxHeight = 500
+     * )
+     * @Assert\File(
+     *      maxSize="2M",
+     *      mimeTypes = {
+     *          "image/png",
+     *          "image/jpeg",
+     *          "image/jpg",
+     *      }
+     * )
      */
     private $avatar;
 
@@ -82,6 +126,7 @@ class User
      * @var \DateTime
      *
      * @ORM\Column(name="date_of_birth", type="date")
+     * @Assert\Date()
      */
     private $dateOfBirth;
 

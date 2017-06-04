@@ -46,9 +46,25 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            //get uploaded avatar
+            $file = $form['avatar']->getData();
+
+            //try to quess extension of uploaded file
+            $extension = $file->guessExtension();
+            if (!$extension) {
+                $extension = 'jpg';
+            }
+
+            $fileName = 'User_'.$form['login']->getData().'.'.$extension;
+            $file->move('avatars', $fileName);
+
             $user = $form->getData();
+            $user->setAvatar($fileName);
 
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
 

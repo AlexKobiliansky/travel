@@ -8,8 +8,9 @@ use AppBundle\Entity\User;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class UserType extends AbstractType
 {
@@ -26,7 +27,9 @@ class UserType extends AbstractType
                 'required' => false,
             ))
 
-            ->add()
+            ->add('avatar', FileType::class, array(
+                'required' => false,
+            ))
 
             ->add('name', TextType::class, array(
                 'required' => false,
@@ -36,7 +39,7 @@ class UserType extends AbstractType
                 'required' => false,
             ))
 
-            ->add('email', HiddenType::class, array(
+            ->add('email', EmailType::class, array(
                 'required' => false,
             ))
 
