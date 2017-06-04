@@ -49,7 +49,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("delete/{id}", name="category_delete", requirements = {"id":"\d+"})
+     * @Route("/delete/{id}", name="category_delete", requirements = {"id":"\d+"})
      */
     public function deleteAction($id)
     {

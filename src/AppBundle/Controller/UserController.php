@@ -47,7 +47,7 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-
+//dump($user); die();
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($user);
@@ -58,6 +58,50 @@ class UserController extends Controller
 
         return $this->render('User/create.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/delete/{id}", name="user_delete", requirements={"id":"\d+"})
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+        $em->remove($user);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('user_list'));
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/update/{id}", name="user_update", requirements={"id":"\d+"} )
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find User');
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+//dump($user); die();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('user_list'));
+        }
+
+        return $this->render('User\update.html.twig', array(
+            'user' => $user,
+            'form' => $form->createView(),
         ));
     }
 }

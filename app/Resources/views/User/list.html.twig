@@ -34,8 +34,8 @@
                 <td>{{ user.phone }}</td>
                 <td>{{ user.address }}</td>
                 <td>{{ user.dateOfBirth|date('j.m.Y') }}</td>
-                <td>edit</td>
-                <td>delete</td>
+                <td><a href="{{ path('user_update', {'id':user.id}) }}">edit</a></td>
+                <td><a href="{{ path('user_delete', {'id':user.id}) }}">delete</a></td>
             </tr>
         {% endfor %}
     </table>
