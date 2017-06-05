@@ -77,7 +77,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $category = $form->getData();
+            // $category = $form->getData();
 
             $em->persist($category);
             $em->flush();

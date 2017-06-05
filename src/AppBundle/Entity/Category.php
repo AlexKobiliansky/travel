@@ -36,7 +36,7 @@ class Category
      *     maxMessage = "Categories name cannot be longer then {{ limit }} characters"
      * )
      * @Assert\Regex(
-     *     pattern = "/^[a-zA-Z0-9-а-яА-Я]{1,}$/",
+     *     pattern = "/^[a-zA-Z0-9-]+$/",
      *     message = "Category name can contain text characters, numbers, and symbol '-' .Please enter valid value"
      * )
      */

@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <header>
+        <h3>Tags list</h3>
+    </header>
+
+    <table class="table table-hover">
+        <tr class="active">
+            <th>№</th>
+            <th>Name</th>
+            <th colspan="2">Actions</th>
+        </tr>
+
+        {% for tag in tags %}
+            {% if loop.index % 2 == 0 %}
+                <tr class = "info">
+            {% endif %}
+                    <td>{{ loop.index + (10*tags.currentPageNumber - 10) }}</td>
+                    <td>{{ tag.name }}</td>
+                    <td><a href="{{ path('tag_update', {'id':tag.id}) }}">edit</a></td>
+                    <td><a href="{{ path('tag_delete', {'id':tag.id}) }}">delete</a></td>
+                </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pager">
+        {{ knp_pagination_render(tags) }}
+    </div>
+
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

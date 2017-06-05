@@ -13,7 +13,7 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
     public function getTags()
     {
         $tags = $this->createQueryBuilder('t')
-            ->select('t.name')
+            ->select('t')
             ->getQuery()
             ->getResult();
 
