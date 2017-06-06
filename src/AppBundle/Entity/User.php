@@ -160,8 +160,7 @@ class User
     private $comments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Article", inversedBy="users")
-     * @ORM\JoinTable(name="user_article")
+     * @ORM\ManyToMany(targetEntity="Article", mappedBy="users")
      */
     private $articles;
 
@@ -384,7 +383,7 @@ class User
     {
         if (!$this->articles->contains($articles)) {
             $this->articles[] = $articles;
-            $articles->addAuthor($this);
+            $articles->addUser($this);
         }
 
         return $this;

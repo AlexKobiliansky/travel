@@ -72,7 +72,8 @@ class Article
     private $likes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="articles")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="articles")
+     * @ORM\JoinTable(name="user_article")
      */
     private $users;
 
@@ -196,7 +197,7 @@ class Article
      */
     public function setDateCreated($dateCreated)
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = new $dateCreated;
 
         return $this;
     }
@@ -283,7 +284,7 @@ class Article
         return $this->likes;
     }
 
-    public function addAuthor(User $users)
+    public function addUser(User $users)
     {
         if (!$this->users->contains($users)) {
             $this->users[] = $users;
