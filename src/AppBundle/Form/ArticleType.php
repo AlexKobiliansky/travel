@@ -24,7 +24,7 @@ class ArticleType extends AbstractType
                 'trim' => true,
                 'required' => false,
             ))
-            ->add('image', FileType::class, array(
+            ->add('imageFile', FileType::class, array(
                 'required' => false,
             ))
             ->add('users', EntityType::class, array(

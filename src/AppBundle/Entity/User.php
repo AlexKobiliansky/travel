@@ -105,7 +105,7 @@ class User
     private $address;
 
     /**
-     * @Vich\UploadableField(mapping="avatar_images", fileNameProperty="avatar")
+     * @Vich\UploadableField(mapping="avatar_image", fileNameProperty="avatar", size="imageSize")
      *
      * @var File
      */

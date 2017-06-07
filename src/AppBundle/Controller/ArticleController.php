@@ -58,7 +58,7 @@ class ArticleController extends Controller
             $article->setDateCreated($date);
             $article->setApproved(false);
             $em = $this->getDoctrine()->getManager();
-//dump($article);die();
+
             $em->persist($article);
             $em->flush();
 
@@ -67,6 +67,50 @@ class ArticleController extends Controller
 
         return $this->render('Article/create.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/delete/{id}", name="article_delete", requirements={"id":"\d+"})
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository('AppBundle:Article')->find($id);
+        $em->remove($article);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('homepage'));
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/update/{id}", name="article_update", requirements={"id":"\d+"} )
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository('AppBundle:Article')->find($id);
+
+        if (!$article) {
+            throw $this->createNotFoundException('Unable to find Article');
+        }
+
+        $form = $this->createForm(ArticleType::class, $article, ["validation_groups" => "edit"]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
+
+            $em->persist($article);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
+        return $this->render('Article\update.html.twig', array(
+            'article' => $article,
+            'form' => $form->createView(),
         ));
     }
 }
