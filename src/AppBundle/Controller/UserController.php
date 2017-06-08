@@ -47,7 +47,7 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-//dump($user); die();
+
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($user);

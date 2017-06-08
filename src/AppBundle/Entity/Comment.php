@@ -112,7 +112,9 @@ class Comment
      */
     public function setDateCreated($dateCreated)
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = new $dateCreated;
+
+       // $this->dateCreated = $dateCreated;
 
         return $this;
     }

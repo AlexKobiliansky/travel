@@ -32,9 +32,15 @@
                     <p>{{ comment.content }}</p>
                 </article>
 
+
             {% else %}
                 <p>There are no comments for this article. Be the first to comment...</p>
             {% endfor %}
         </section>
+
+    <section class="add-comment">
+        <h3>Add new Comment</h3>
+        {{ render(controller('AppBundle:Comment:create',{ 'article_id': article.id })) }}
+    </section>
 
 {% endblock %}
