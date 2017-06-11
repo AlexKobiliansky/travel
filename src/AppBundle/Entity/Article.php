@@ -102,7 +102,7 @@ class Article
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article", cascade={"remove"})
      */
     private $comments;
 

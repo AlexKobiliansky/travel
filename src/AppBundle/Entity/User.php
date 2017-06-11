@@ -155,7 +155,7 @@ class User
     private $dateOfBirth;
 
     /**
-     * @ORM\OneToMany(targetEntity = "Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity = "Comment", mappedBy="user", cascade={"remove"})
      */
     private $comments;
 
