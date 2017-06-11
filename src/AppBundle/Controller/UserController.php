@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class UserController
@@ -63,11 +64,11 @@ class UserController extends Controller
 
     /**
      * @Route("/delete/{id}", name="user_delete", requirements={"id":"\d+"})
+     * @ParamConverter("user", class="AppBundle:User")
      */
-    public function deleteAction($id)
+    public function deleteAction(User $user)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($id);
         $em->remove($user);
         $em->flush();
 
@@ -77,11 +78,11 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @Route("/update/{id}", name="user_update", requirements={"id":"\d+"} )
+     * @ParamConverter("user", class="AppBundle:User")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, User $user)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($id);
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User');

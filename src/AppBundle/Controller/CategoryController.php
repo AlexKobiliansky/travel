@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\CategoryType;
 use AppBundle\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class CategoryController
@@ -50,11 +51,11 @@ class CategoryController extends Controller
 
     /**
      * @Route("/delete/{id}", name="category_delete", requirements = {"id":"\d+"})
+     * @ParamConverter("category", class="AppBundle:Category")
      */
-    public function deleteAction($id)
+    public function deleteAction(Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('AppBundle:Category')->find($id);
         $em->remove($category);
         $em->flush();
 
@@ -63,11 +64,11 @@ class CategoryController extends Controller
 
     /**
      * @Route("/update/{id}", requirements={"id":"\d+"}, name="category_update")
+     * @ParamConverter("category", class="AppBundle:Category")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Category $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('AppBundle:Category')->find($id);
 
         if (!$category) {
             throw $this->createNotFoundException('Unable to find Category');
@@ -77,8 +78,6 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $category = $form->getData();
-
             $em->persist($category);
             $em->flush();
 

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class ArticleController
@@ -16,17 +17,15 @@ class ArticleController extends Controller
 {
     /**
      * @Route("/{id}", name="show_article", requirements={"id": "\d+"})
+     * @ParamConverter("article", class="AppBundle:Article")
      */
-    public function showAction($id)
+    public function showAction(Article $article)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $article = $em->getRepository('AppBundle:Article')
-            ->find($id);
-
         if (!$article) {
             throw $this->createNotFoundException(
-                'No article found with id '.$id
+                'No article found with id '
             );
         }
 
@@ -72,11 +71,12 @@ class ArticleController extends Controller
 
     /**
      * @Route("/delete/{id}", name="article_delete", requirements={"id":"\d+"})
+     * @ParamConverter("article", class="AppBundle:Article")
      */
-    public function deleteAction($id)
+
+    public function deleteAction(Article $article)
     {
         $em = $this->getDoctrine()->getManager();
-        $article = $em->getRepository('AppBundle:Article')->find($id);
         $em->remove($article);
         $em->flush();
 
@@ -86,11 +86,11 @@ class ArticleController extends Controller
     /**
      * @param Request $request
      * @Route("/update/{id}", name="article_update", requirements={"id":"\d+"} )
+     * @ParamConverter("article", class="AppBundle:Article")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Article $article)
     {
         $em = $this->getDoctrine()->getManager();
-        $article = $em->getRepository('AppBundle:Article')->find($id);
 
         if (!$article) {
             throw $this->createNotFoundException('Unable to find Article');

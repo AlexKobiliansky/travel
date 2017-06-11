@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class TagController
@@ -52,11 +53,11 @@ class TagController extends Controller
 
     /**
      * @Route("/delete/{id}", name="tag_delete", requirements = {"id":"\d+"})
+     * @ParamConverter("tag", class="AppBundle:Tag")
      */
-    public function deleteAction($id)
+    public function deleteAction(Tag $tag)
     {
         $em = $this->getDoctrine()->getManager();
-        $tag = $em->getRepository('AppBundle:Tag')->find($id);
         $em->remove($tag);
         $em->flush();
 
@@ -65,11 +66,11 @@ class TagController extends Controller
 
     /**
      * @Route("/update/{id}", requirements={"id":"\d+"}, name="tag_update")
+     * @ParamConverter("tag", class="AppBundle:Tag")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, Tag $tag)
     {
         $em = $this->getDoctrine()->getManager();
-        $tag = $em->getRepository('AppBundle:Tag')->find($id);
 
         if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag');
