@@ -3,26 +3,38 @@
 {% block body %}
 
     {% for article in articles %}
-        <div class="date">
-            <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
-        </div>
+        <article class="article">
 
-        <header>
-            <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
-        </header>
+            <section class="article-title">
+                <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
+                <span class="category">
+                    Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
+                </span>
+            </section>
 
-        <p>{{ article.content(300) }}</p>
-        <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
+            <div class="date">
+                <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
+            </div>
 
-        <footer class="meta">
-            <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
-        </footer>
+            {% if not article.imageName %}
+                <img src="{{ asset('articles/no_image.png')}}">
+            {% else %}
+                <img src="{{ asset('articles/'~ article.imageName )}}">
+            {% endif %}
 
+            <p>{{ article.content(300) }}</p>
+            <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
+
+            <footer class="meta">
+                <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
+            </footer>
+        </article>
     {% else %}
         <p>There are no articles yet</p>
     {% endfor %}
 
-    <div class="navigation">
+
+    <div class="pager">
         {{ knp_pagination_render(articles) }}
     </div>
 {% endblock %}

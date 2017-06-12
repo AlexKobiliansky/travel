@@ -6,6 +6,7 @@
 
         {% block stylesheets %}
             <link href ="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+            <link href ="{{ asset('css/style.css') }}" rel="stylesheet" />
         {% endblock %}
     </head>
 
@@ -32,13 +33,17 @@
         </header>
 
             <div class="row">
-                <div class="col-sm-10">
-                    {% block page_title %}{% endblock %}
-                    {% block body %}{% endblock %}
+                <div class="col-sm-9">
+                    <section class="main">
+                        {% block page_title %}{% endblock %}
+                        {% block body %}{% endblock %}
+                    </section>
                 </div>
 
-                <div class="col-sm-2">
-                    {% block sidebar %}{% endblock %}
+                <div class="col-sm-3">
+                    <section class="sidebar">
+                        {% block sidebar %}{% endblock %}
+                    </section>
                 </div>
             </div>
 
