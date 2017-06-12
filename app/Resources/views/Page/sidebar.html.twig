@@ -4,7 +4,7 @@
 
 
 {% for tag in tags %}
-    {{ tag.name }}
+    <a href="{{ path('article_list_by_tag', {'tagId':tag.id}) }}">{{ tag.name }}</a>
 {% else %}
     <p>There are no tags</p>
 {% endfor %}
@@ -17,7 +17,7 @@
     {% for category in categories %}
         {% if(category.parent == null) %}
             <li>
-                {{ category.name }}
+                <a href="{{ path('article_list_by_category', {'categoryId':category.id}) }}"> {{ category.name }}</a>
                 {% include 'Page/categories.html.twig' with {'categories':category.children} %}
             </li>
         {% endif %}

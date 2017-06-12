@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Class ArticleController
@@ -18,6 +19,7 @@ class ArticleController extends Controller
     /**
      * @Route("/{id}", name="show_article", requirements={"id": "\d+"})
      * @ParamConverter("article", class="AppBundle:Article")
+     * @Template("Article/show.html.twig", vars={"comments", "article"})
      */
     public function showAction(Article $article)
     {
@@ -31,11 +33,6 @@ class ArticleController extends Controller
 
         $comments = $em->getRepository('AppBundle:Comment')
             ->getCommentForArticle($article->getId());
-
-        return $this->render('Article/show.html.twig', array(
-                'article' => $article,
-                'comments' => $comments
-            ));
     }
 
     /**
@@ -111,6 +108,44 @@ class ArticleController extends Controller
         return $this->render('Article\update.html.twig', array(
             'article' => $article,
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $categoryId
+     * @Route ("/listByCategory/{categoryId}", name="article_list_by_category")
+     */
+    public function listByCategoryAction(Request $request, $categoryId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository('AppBundle:Article')->findByCategory($categoryId);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
+
+        return $this->render('Page\index.html.twig', array(
+            'articles' => $pagination,
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param $tagId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/listByTag/{tagId}", name="article_list_by_tag")
+     */
+
+    public function listByTagAction(Request $request, $tagId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository('AppBundle:Article')->getByTag($tagId);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
+
+        return $this->render('Page\index.html.twig', array(
+            'articles' => $pagination,
         ));
     }
 }

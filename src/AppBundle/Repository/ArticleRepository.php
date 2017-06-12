@@ -16,4 +16,13 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
 
         return $articles;
     }
+
+    public function getByTag($id)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->innerJoin('a.tags', 't', 'WITH', 't.id = :id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
 }
