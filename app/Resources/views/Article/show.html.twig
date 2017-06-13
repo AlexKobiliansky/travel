@@ -13,15 +13,19 @@
         <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
     </div>
 
+    {% if article.imageName %}
+        <img class="article-image" src="{{ asset('articles/'~ article.imageName )}}">
+    {% endif %}
+
     <div>
         <p>{{ article.content }}</p>
     </div>
 
     <footer class="meta">
-        Posted by {% for user in article.users %}
+        <p>Posted by {% for user in article.users %}
             <span class="author">
                 <a href="{{ path('article_list_by_author', {'userId':user.id}) }}">{{ user }}</a>
-            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
+            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}</p>
 
         {% if article.tags|length > 0 %}
             <p>Tags: {% for tag in article.tags %}

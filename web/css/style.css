@@ -1,10 +1,7 @@
 .article {margin-bottom: 10px; border-bottom:1px solid #ccc; padding-bottom: 30px}
 .article-title h2 {display: inline; padding-bottom:10px}
 .article img {width: 190px; float:left; padding: 5px; border: 1px solid #ccc; margin: 0 10px 10px 0}
-.article .meta{clear:left; font-size: 12px;}
-.article .meta p {margin-bottom: 5px; line-height: 1.2em}
-.article .meta .author {margin: 0 5px 0 0; padding:2px; background-color: #EEEEEE}
-
+.article-image {width: 300px; float:left; padding: 5px; border: 1px solid #ccc; margin: 0 10px 10px 0}
 a {color: #1b6d85}
 a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 
@@ -20,9 +17,12 @@ a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 
 .date{margin:0 5px 10px 0; font-size: 14px; color: #1b6d85}
 
-.sidebar {border-left: 1px solid #2e6da4; padding-left: 10px; margin: 10px}
-
 .message {padding:20px; font-size:16px; font-style:italic; margin-bottom: 20px}
+.meta{clear:left; font-size: 12px;}
+.meta p {margin-bottom: 5px; line-height: 1.2em}
+.meta .author {margin: 0 5px 0 0; padding:2px; background-color: #EEEEEE}
+
+.sidebar {border-left: 1px solid #2e6da4; padding-left: 10px; margin: 10px}
 
 .tag {font-size: 14px; margin: 0 8px 0 0;}
 .tag a {color: tomato}

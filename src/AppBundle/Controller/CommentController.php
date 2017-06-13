@@ -38,7 +38,7 @@ class CommentController extends Controller
 
             $author = $this->getDoctrine()
                 ->getRepository('AppBundle:User')
-                ->find(rand(1, 10));
+                ->find(rand(2, 10));
 
             $comment->setArticle($article);
 
@@ -51,6 +51,8 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+
+            $form->isEmpty();
 
             return $this->redirect($this->generateUrl('show_article', array(
                 'id' => $article_id,

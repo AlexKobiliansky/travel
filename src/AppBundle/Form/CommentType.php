@@ -18,7 +18,11 @@ class CommentType extends AbstractType
                 'label' => ' ',
             ))
 
-            ->add('save', SubmitType::class);
+            ->add('save', SubmitType::class, array(
+                'attr' => array('class'             => 'btn btn-primary',
+
+                                'data-loading-text' => 'Loading...')
+            ));
     }
 
     /**
