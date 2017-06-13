@@ -19,7 +19,6 @@ class ArticleController extends Controller
     /**
      * @Route("/{id}", name="show_article", requirements={"id": "\d+"})
      * @ParamConverter("article", class="AppBundle:Article")
-     * @Template("Article/show.html.twig", vars={"comments", "article"})
      */
     public function showAction(Article $article)
     {
@@ -33,6 +32,11 @@ class ArticleController extends Controller
 
         $comments = $em->getRepository('AppBundle:Comment')
             ->getCommentForArticle($article->getId());
+
+        return $this->render('Article/show.html.twig', array(
+            'article'  => $article,
+            'comments' => $comments,
+        ));
     }
 
     /**
@@ -107,7 +111,7 @@ class ArticleController extends Controller
 
         return $this->render('Article\update.html.twig', array(
             'article' => $article,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
         ));
     }
 

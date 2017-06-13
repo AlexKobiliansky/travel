@@ -29,8 +29,6 @@ class CommentController extends Controller
 
         $form->handleRequest($request);
 
-        $form->getData();
-
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
 
