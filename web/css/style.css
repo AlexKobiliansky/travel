@@ -27,3 +27,5 @@ a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 .tag {font-size: 14px; margin: 0 8px 0 0;}
 .tag a {color: tomato}
 
+#carousel-example-generic{margin:20px 0 20px 0; border: 1px solid #ccc; padding: 2px}
+

@@ -5,53 +5,50 @@
     <section class="article-title">
         <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
         <span class="category">
-                    Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
-                </span>
+            Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
+        </span>
     </section>
 
     <div class="date">
         <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
     </div>
 
-        <div>
-            <p>{{ article.content }}</p>
-        </div>
+    <div>
+        <p>{{ article.content }}</p>
+    </div>
 
     <footer class="meta">
-            Posted by {% for user in article.users %}
-                <span class="author">
-                            <a href="{{ path('article_list_by_author', {'userId':user.id}) }}">{{ user }}</a>
-                        </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
-        </p>
+        Posted by {% for user in article.users %}
+            <span class="author">
+                <a href="{{ path('article_list_by_author', {'userId':user.id}) }}">{{ user }}</a>
+            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
 
         {% if article.tags|length > 0 %}
-            <p>
-                Tags: {% for tag in article.tags %}
+            <p>Tags: {% for tag in article.tags %}
                     <span class="tag">
-                                <a href="{{ path('article_list_by_tag', {'tagId':tag.id}) }}">#{{ tag }}</a>
-                            </span> {% endfor %}
-            </p>
+                        <a href="{{ path('article_list_by_tag', {'tagId':tag.id}) }}">#{{ tag }}</a>
+                    </span> {% endfor %}</p>
         {% endif %}
     </footer>
 
     <h3><a name="comments"></a>Comments</h3>
 
-            {% for comment in comments %}
-            <section class="comment">
-                <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
+    {% for comment in comments %}
+        <section class="comment">
+            <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
 
-                <div class="comment-header">
-                    <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span></p>
-                </div>
+            <div class="comment-header">
+                <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span></p>
+            </div>
 
-                <div class="comment-content">
-                    <p>{{ comment.content }}</p>
-                </div>
-            </section>
+            <div class="comment-content">
+                <p>{{ comment.content }}</p>
+            </div>
+        </section>
 
-            {% else %}
-                <p>There are no comments for this article. Be the first to comment...</p>
-            {% endfor %}
+    {% else %}
+            <p>There are no comments for this article. Be the first to comment...</p>
+    {% endfor %}
 
     <section class="add-comment">
         <h3>Add new Comment</h3>
