@@ -121,11 +121,15 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository('AppBundle:Article')->findByCategory($categoryId);
 
+        $categoryName = $em->getRepository('AppBundle:Category')->find($categoryId);
+        $message = "Sorted by category \"$categoryName\"";
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
 
         return $this->render('Page\index.html.twig', array(
             'articles' => $pagination,
+            'message'  => $message,
         ));
     }
 
@@ -141,11 +145,41 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository('AppBundle:Article')->getByTag($tagId);
 
+        $tagName = $em->getRepository('AppBundle:Tag')->find($tagId);
+        $message = "Sorted by tag\"$tagName\"";
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
 
         return $this->render('Page\index.html.twig', array(
             'articles' => $pagination,
+            'message'  => $message,
+        ));
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $userId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/listByAuthor/{userId}", name="article_list_by_author")
+     */
+
+    public function listByAuthorAction(Request $request, $userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository('AppBundle:Article')->getByAuthor($userId);
+
+        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $authorName = $user->getName(). " " . $user->getSurname();
+        $message = "Sorted by author \"$authorName\"";
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
+
+        return $this->render('Page\index.html.twig', array(
+            'articles' => $pagination,
+            'message'  => $message,
         ));
     }
 }

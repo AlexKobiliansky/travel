@@ -11,7 +11,7 @@ class PageController extends Controller
     /**
      * @Route ("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $message=null)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -21,7 +21,8 @@ class PageController extends Controller
         $pagination = $paginator->paginate($articles, $request->query->get('page', 1), 5);
 
         return $this->render('Page/index.html.twig', array(
-            'articles' => $pagination
+            'articles' => $pagination,
+            'message' => $message,
         ));
     }
 

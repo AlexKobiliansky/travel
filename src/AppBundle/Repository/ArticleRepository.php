@@ -25,4 +25,13 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getByAuthor($id)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->innerJoin('a.users', 'u', 'WITH', 'u.id = :id')
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
 }

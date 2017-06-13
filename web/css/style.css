@@ -7,3 +7,8 @@ a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 .category{position:absolute; right:10px; }
 .article img {width: 190px; float:left; padding: 5px; border: 1px solid #ccc; margin: 0 10px 10px 0}
 .continue {text-align:right}
+.article .meta{clear:left; font-size: 12px;}
+.article .meta p {margin-bottom: 5px; line-height: 1.2em}
+.article .meta .author {margin: 0 5px 0 0; padding:2px; background-color: #EEEEEE}
+.tag {font-size: 14px; margin: 0 8px 0 0; color: tomato}
+.message {padding:20px; font-size:16px; font-style:italic; margin-bottom: 20px}

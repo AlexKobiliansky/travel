@@ -1,6 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
+    {% if message %}
+        <p class="bg-info message">{{ message }}</p>
+    {% endif %}
 
     {% for article in articles %}
         <article class="article">
@@ -26,8 +29,27 @@
             <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
 
             <footer class="meta">
-                <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a></p>
+
+                <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
+                   Likes: {{ article.likes }}</p>
+
+                <p>
+                    Posted by {% for user in article.users %}
+                        <span class="author">
+                            <a href="{{ path('article_list_by_author', {'userId':user.id}) }}">{{ user }}</a>
+                        </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
+                </p>
+
+                {% if article.tags|length > 0 %}
+                    <p>
+                        Tags: {% for tag in article.tags %}
+                            <span class="tag">
+                                <a href="{{ path('article_list_by_tag', {'tagId':tag.id}) }}">#{{ tag }}</a>
+                            </span> {% endfor %}
+                    </p>
+                {% endif %}
             </footer>
+
         </article>
     {% else %}
         <p>There are no articles yet</p>
