@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -117,6 +118,12 @@ class Article
      * @ORM\JoinTable(name="article_tag")
      */
     private $tags;
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=255)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -393,5 +400,10 @@ class Article
     public function getImageSize()
     {
         return $this->imageSize;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

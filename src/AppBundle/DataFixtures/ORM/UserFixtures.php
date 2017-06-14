@@ -27,7 +27,6 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface
             $user->setEmail($faker->email);
             $user->setPhone($faker->phoneNumber);
             $user->setAddress($faker->streetAddress);
-            $user->setAvatar("avatar{$i}.jpg");
             $user->setDateOfBirth($faker->dateTimeThisYear);
 
             $manager->persist($user);

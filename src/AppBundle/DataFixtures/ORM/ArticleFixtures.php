@@ -27,7 +27,6 @@ class ArticleFixtures extends AbstractFixture implements OrderedFixtureInterface
             $article = new Article();
             $article->setTitle($faker->catchPhrase);
             $article->setContent($faker->text($maxNbChars = 1000));
-            $article->setImage("image{$i}.jpg");
             $article->setDateCreated($faker->dateTimeThisYear($max = "now"));
             $article->setApproved(true);
             $article->setCategory($this->getReference("category-{$c}"));
@@ -37,7 +36,7 @@ class ArticleFixtures extends AbstractFixture implements OrderedFixtureInterface
 
                 //"$a" - author identifier.
                 $a = rand(1, 10);
-                $article->addAuthor($this->getReference("user-{$a}"));
+                $article->addUser($this->getReference("user-{$a}"));
 
                 //"$t" - tag identifier
                 $t=rand(1, 20);

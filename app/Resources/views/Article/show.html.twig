@@ -3,7 +3,7 @@
 {% block body %}
 
     <section class="article-title">
-        <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
+        <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
         <span class="category">
             Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
         </span>

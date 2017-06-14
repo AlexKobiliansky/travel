@@ -9,7 +9,7 @@
         <article class="article">
 
             <section class="article-title">
-                <h2><a href="{{ path('show_article', {'id': article.id}) }}">{{ article.title }}</a></h2>
+                <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
                 <span class="category">
                     Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
                 </span>
@@ -26,11 +26,11 @@
             {% endif %}
 
             <p>{{ article.content(300) }}</p>
-            <p class="continue"><a href="{{ path('show_article', { 'id': article.id }) }}">Continue reading...</a></p>
+            <p class="continue"><a href="{{ path('show_article', { 'slug': article.slug }) }}">Continue reading...</a></p>
 
             <footer class="meta">
 
-                <p>Comments: <a href="{{ path('show_article', {'id':article.id}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
+                <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
                    Likes: {{ article.likes }}</p>
 
                 <p>

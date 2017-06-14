@@ -17,16 +17,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/{id}", name="show_article", requirements={"id": "\d+"})
+     * @Route("/{slug}", name="show_article")
      * @ParamConverter("article", class="AppBundle:Article")
      */
-    public function showAction(Article $article)
+    public function showAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository('AppBundle:Article')->findOneBySlug($slug);
 
         if (!$article) {
             throw $this->createNotFoundException(
-                'No article found with id '
+                'No article found!'
             );
         }
 
