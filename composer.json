@@ -34,7 +34,9 @@
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.2.*",
         "twig/twig": "^1.0||^2.0",
-        "vich/uploader-bundle": "^1.5"
+        "vich/uploader-bundle": "^1.5",
+        "doctrine/doctrine-migrations-bundle": "dev-master",
+        "doctrine/migrations": "dev-master"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^2.3",
