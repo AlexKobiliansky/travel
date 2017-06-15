@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/{slug}", name="show_article")
+     * @Route("/show/{slug}", name="show_article")
      * @ParamConverter("article", class="AppBundle:Article")
      */
     public function showAction($slug)

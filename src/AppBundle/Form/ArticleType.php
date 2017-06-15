@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class ArticleType extends AbstractType
 {
@@ -32,6 +33,10 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'label' => 'Author(s)',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                },
             ))
             ->add('category', EntityType::class, array(
                 'class' => 'AppBundle:Category',
@@ -49,7 +54,7 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Article'
+            'data_class' => Article::class,
         ));
     }
 }
