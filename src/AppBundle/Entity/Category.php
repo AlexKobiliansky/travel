@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Category
@@ -57,6 +58,12 @@ class Category
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=30)
+     */
+    private $slug;
 
 
     public function __construct()
@@ -118,5 +125,10 @@ class Category
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

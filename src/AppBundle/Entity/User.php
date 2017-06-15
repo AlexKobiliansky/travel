@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -163,6 +164,12 @@ class User
      * @ORM\ManyToMany(targetEntity="Article", mappedBy="users")
      */
     private $articles;
+
+    /**
+     * @Gedmo\Slug(fields={"login"})
+     * @ORM\Column(length=50)
+     */
+    private $slug;
 
 
     public function __constuct()
@@ -458,5 +465,10 @@ class User
     public function getImageSize()
     {
         return $this->imageSize;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

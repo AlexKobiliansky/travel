@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Tag
@@ -46,6 +47,12 @@ class Tag
      * @ORM\ManyToMany(targetEntity="Article", mappedBy="tags")
      */
     private $articles;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=30)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -100,5 +107,10 @@ class Tag
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

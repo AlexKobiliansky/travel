@@ -1,7 +1,7 @@
 <ul>
     {% for category in categories %}
         <li>
-            <a href="{{ path('article_list_by_category', {'categoryId':category.id}) }}">{{ category.name }}</a>
+            <a href="{{ path('article_list_by_category', {'slug':category.slug}) }}">{{ category.name }}</a>
             {% include 'Page/categories.html.twig' with {'categories':category.children} %}
         </li>
     {% endfor %}

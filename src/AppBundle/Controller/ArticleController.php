@@ -119,14 +119,15 @@ class ArticleController extends Controller
     /**
      * @param Request $request
      * @param $categoryId
-     * @Route ("/listByCategory/{categoryId}", name="article_list_by_category")
+     * @Route ("/listByCategory/{slug}", name="article_list_by_category")
      */
-    public function listByCategoryAction(Request $request, $categoryId)
+    public function listByCategoryAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('AppBundle:Article')->findByCategory($categoryId);
+        $categoryName = $em->getRepository('AppBundle:Category')->findOneBySlug($slug);
 
-        $categoryName = $em->getRepository('AppBundle:Category')->find($categoryId);
+        $articles = $em->getRepository('AppBundle:Article')->findByCategory($categoryName);
+
         $message = "Sorted by category \"$categoryName\"";
 
         $paginator = $this->get('knp_paginator');
@@ -142,15 +143,16 @@ class ArticleController extends Controller
      * @param Request $request
      * @param $tagId
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/listByTag/{tagId}", name="article_list_by_tag")
+     * @Route("/listByTag/{slug}", name="article_list_by_tag")
      */
 
-    public function listByTagAction(Request $request, $tagId)
+    public function listByTagAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('AppBundle:Article')->getByTag($tagId);
+        $tagName = $em->getRepository('AppBundle:Tag')->findOneBySlug($slug);
 
-        $tagName = $em->getRepository('AppBundle:Tag')->find($tagId);
+        $articles = $em->getRepository('AppBundle:Article')->getByTag($tagName);
+
         $message = "Sorted by tag\"$tagName\"";
 
         $paginator = $this->get('knp_paginator');
@@ -167,15 +169,17 @@ class ArticleController extends Controller
      * @param Request $request
      * @param $userId
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/listByAuthor/{userId}", name="article_list_by_author")
+     * @Route("/listByAuthor/{slug}", name="article_list_by_author")
      */
 
-    public function listByAuthorAction(Request $request, $userId)
+    public function listByAuthorAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository('AppBundle:Article')->getByAuthor($userId);
 
-        $user = $em->getRepository('AppBundle:User')->find($userId);
+        $user = $em->getRepository('AppBundle:User')->findOneBySlug($slug);
+//dump($user); die();
+        $articles = $em->getRepository('AppBundle:Article')->getByAuthor($user);
+
         $authorName = $user->getName(). " " . $user->getSurname();
         $message = "Sorted by author \"$authorName\"";
 
