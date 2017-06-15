@@ -46,7 +46,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tags = $em->getRepository('AppBundle:Tag')->getTags();
+        $tags = $em->getRepository('AppBundle:Tag')->getTags(20);
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 

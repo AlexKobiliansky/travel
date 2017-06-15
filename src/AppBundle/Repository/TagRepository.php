@@ -10,13 +10,19 @@ namespace AppBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getTags()
+    public function getTags($number)
     {
         $tags = $this->createQueryBuilder('t')
             ->select('t')
             ->getQuery()
             ->getResult();
 
-        return $tags;
+        uksort($tags, function () {
+            return rand() > rand();
+        });
+
+        $tagCloud = array_slice($tags, 0, $number);
+
+        return $tagCloud;
     }
 }
