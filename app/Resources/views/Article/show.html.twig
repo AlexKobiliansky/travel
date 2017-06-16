@@ -37,7 +37,6 @@
 
     <h3><a name="comments"></a>Comments</h3>
 
-
     {% for comment in comments %}
         {% if(comment.parent == null) %}
 
@@ -55,7 +54,11 @@
                     <div class="comment-content">
                         <p>{{ comment.content }}</p>
                     </div>
+
+                    <input type="button" class="button btn btn-default btn-xs" value="Answer" onClick='location.href="{{ path('subcomment_create', {'comment_id': comment.id,
+                        'article_id':comment.article.id }) }}"'>
                 </section>
+
             <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
 
         {% endif %}

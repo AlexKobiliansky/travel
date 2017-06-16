@@ -1,7 +1,0 @@
-{% set subcomments = comment.getChildren %}
-
-{% if child != null %}
-    {%  for child_comment in child_comments %}
-        <p>{{ child_comment.content }}</p>
-    {% endfor %}
-{% endif %}
