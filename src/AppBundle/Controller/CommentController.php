@@ -132,10 +132,30 @@ class CommentController extends Controller
         $comment = $this->getDoctrine()
             ->getRepository('AppBundle:Comment')
             ->find($comment_id);
-//dump($comment); die();
+
         return $this->render('Comment/subcomments.html.twig', array(
             'article' => $article,
             'comment' => $comment,
         ));
+    }
+
+    /**
+     * @Route("/delete/{id}", name="comment_delete", requirements={"id":"\d+"})
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $comment = $this->getDoctrine()
+            ->getRepository('AppBundle:Comment')
+            ->find($id);
+
+        $article = $comment->getArticle();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($comment);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('show_article', array(
+            'slug' => $article->getSlug(),
+        )));
     }
 }

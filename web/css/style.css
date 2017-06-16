@@ -15,6 +15,7 @@ a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 .comment #login {font-weight:bold}
 .comment #date {font-size: 0.8em; margin-left: 10px; color: #999999}
 .comment .button{margin:10px 0 0  68px;}
+.comment-header .glyphicon {float:right }
 
 .subcomment{margin-left: 100px}
 .subcomment > .comment{padding: 20px 20px 20px 0}
