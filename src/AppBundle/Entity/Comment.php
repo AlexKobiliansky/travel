@@ -70,19 +70,19 @@ class Comment
     private $article;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent_comment", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent", cascade={"persist", "remove"})
      */
-    private $child_comments;
+    private $children;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="child_comments")
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
      */
-    private $parent_comment;
+    private $parent;
 
 
     public function __construct()
     {
-        $this->child_comments = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -244,16 +244,21 @@ class Comment
         return $this->getContent();
     }
 
-    public function setParentComment(Comment $comment)
+    public function setParent(Comment $comment)
     {
-        $this->parent_comment = $comment;
+        $this->parent = $comment;
         return $this;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
     }
     /**
      * @return ArrayCollection
      */
-    public function getChildComments()
+    public function getChildren()
     {
-        return $this->child_comments;
+        return $this->children;
     }
 }

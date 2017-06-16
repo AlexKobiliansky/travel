@@ -1,0 +1,24 @@
+{% for comment in comments %}
+
+    <section class="comment">
+        {% if not comment.author.avatar %}
+            <img src="{{ asset('avatars/no_avatar.jpg') }}">
+        {% else %}
+            <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
+        {% endif %}
+
+        <div class="comment-header">
+            <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span></p>
+        </div>
+
+        <div class="comment-content">
+            <p>{{ comment.content }}</p>
+        </div>
+    </section>
+
+{% else %}
+    <p>There are no comments for this article. Be the first to comment...</p>
+
+    <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
+
+{% endfor %}

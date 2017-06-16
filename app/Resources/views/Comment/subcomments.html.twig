@@ -1,18 +1,7 @@
-{% set child_comments=comment.getChildComments %}
-      {% if child_comments != null %}
-          {%  for child_comment in child_comments %}
+{% set subcomments = comment.getChildren %}
 
-              <p>{{ child_comment.content }}</p>
-
-
-
-              <div>  Back comments ({{ child_comment.getChildComments|length }})</div>
-
-                      <span>  Add subcomments </span>
-
-                  <input type="text" class = "comemnt_id" value="{{ child_comment.Id }}" hidden>
-                  <input type="text" class = "article_id" value="{{ article.Id }}" hidden>
-                  <div class="media" style="width: 95%; float: right"></div>
-
-          {% endfor %}
-      {% endif %}
+{% if child != null %}
+    {%  for child_comment in child_comments %}
+        <p>{{ child_comment.content }}</p>
+    {% endfor %}
+{% endif %}

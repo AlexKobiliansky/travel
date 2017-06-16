@@ -99,7 +99,7 @@ class CommentController extends Controller
 
             $date = new \DateTime("now");
             $subcomment->setDateCreated($date);
-            $subcomment->setParentComment($comment);
+            $subcomment->setParent($comment);
             $subcomment->setApproved(false);
 
             $em = $this->getDoctrine()->getManager();
