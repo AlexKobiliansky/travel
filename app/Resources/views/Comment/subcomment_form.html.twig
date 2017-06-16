@@ -1,0 +1,7 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{{ form_start(form, {'action':path('subcomment_create', {'article_id':article.id, 'comment_id':comment.id}), 'method':'POST' }) }}
+
+{{ form_widget(form) }}
+
+{{ form_end(form) }}

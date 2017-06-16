@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Comment
@@ -68,6 +69,21 @@ class Comment
      */
     private $article;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent_comment", cascade={"persist", "remove"})
+     */
+    private $child_comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="child_comments")
+     */
+    private $parent_comment;
+
+
+    public function __construct()
+    {
+        $this->child_comments = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -226,5 +242,18 @@ class Comment
     public function __toString()
     {
         return $this->getContent();
+    }
+
+    public function setParentComment(Comment $comment)
+    {
+        $this->parent_comment = $comment;
+        return $this;
+    }
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildComments()
+    {
+        return $this->child_comments;
     }
 }

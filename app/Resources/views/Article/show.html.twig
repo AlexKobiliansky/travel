@@ -5,7 +5,7 @@
     <section class="article-title">
         <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
         <span class="category">
-            Category:[<a href="{{ path('article_list_by_category', {'categoryId':article.category.id}) }}">{{ article.category }}</a>]
+            Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
         </span>
     </section>
 
@@ -24,13 +24,13 @@
     <footer class="meta">
         <p>Posted by {% for user in article.users %}
             <span class="author">
-                <a href="{{ path('article_list_by_author', {'userId':user.id}) }}">{{ user }}</a>
+                <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
             </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}</p>
 
         {% if article.tags|length > 0 %}
             <p>Tags: {% for tag in article.tags %}
                     <span class="tag">
-                        <a href="{{ path('article_list_by_tag', {'tagId':tag.id}) }}">#{{ tag }}</a>
+                        <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
                     </span> {% endfor %}</p>
         {% endif %}
     </footer>
@@ -39,7 +39,11 @@
 
     {% for comment in comments %}
         <section class="comment">
-            <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
+            {% if not comment.author.avatar %}
+                <img src="{{ asset('avatars/no_avatar.jpg') }}">
+            {% else %}
+                <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
+            {% endif %}
 
             <div class="comment-header">
                 <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span></p>
