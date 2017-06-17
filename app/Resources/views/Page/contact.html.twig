@@ -2,4 +2,25 @@
 
 {% block title %}Contact{% endblock %}
 
-{% block page_title %}<h1>Contact with me{% endblock %}
+{% block page_title %}<h1>Contact with me</h1>{% endblock %}
+
+{% block body %}
+
+    {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
+        <div>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+    {{ form_start(form, { 'action': path('contact'), 'method': 'POST' }) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.body) }}
+
+    {{ form_rest(form) }}
+
+{% endblock %}

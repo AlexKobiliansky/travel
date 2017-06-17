@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Enquiry;
+use AppBundle\Form\EnquiryType;
 
 class PageController extends Controller
 {
@@ -37,9 +39,33 @@ class PageController extends Controller
     /**
      * @Route ("/contact", name="contact")
      */
-    public function contactAction()
+    public function contactAction(Request $request)
     {
-        return $this->render('Page/contact.html.twig');
+        $enquiry = new Enquiry();
+
+        $form = $this->createForm(EnquiryType::class, $enquiry);
+
+        if ($request->isMethod($request::METHOD_POST)) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Contact enquiry from Alex Kobilianskiy')
+                    ->setFrom('alex_kobilianskiy@bigmir.net')
+                    ->setTo('alex_kobolianskiy@bigmir.net')
+                    ->setBody($this->renderView('Page/contactEmail.txt.twig', array('enquiry' => $enquiry)));
+
+                $this->get('mailer')->send($message);
+
+                $this->get('session')->getFlashBag()->add('blogger-notice', 'Your contact enquiry was successfully sent. Thank you!');
+
+                return $this->redirect($this->generateUrl('contact'));
+            }
+        }
+
+        return $this->render('Page/contact.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     public function sidebarAction()

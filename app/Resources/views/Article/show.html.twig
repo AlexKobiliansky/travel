@@ -3,10 +3,10 @@
 {% block body %}
 
     <section class="article-title">
-        <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
         <span class="category">
             Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
         </span>
+        <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
     </section>
 
     <div class="date">
@@ -25,13 +25,15 @@
         <p>Posted by {% for user in article.users %}
             <span class="author">
                 <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
-            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}</p>
+            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
+        </p>
 
         {% if article.tags|length > 0 %}
             <p>Tags: {% for tag in article.tags %}
                     <span class="tag">
                         <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
-                    </span> {% endfor %}</p>
+                    </span> {% endfor %}
+            </p>
         {% endif %}
     </footer>
 
@@ -47,20 +49,24 @@
                 {% endif %}
 
                 <div class="comment-header">
-                    <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
-                        <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a></p>
+                    <p>
+                        <span id="login">{{ comment.author.login }}</span>
+                        <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
+                        <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
+                        <a href="#"><span class="glyphicon glyphicon-edit"></span></a>
+                    </p>
                 </div>
 
                 <div class="comment-content">
                     <p>{{ comment.content }}</p>
                 </div>
 
-                <input type="button" class="button btn btn-default btn-xs" value="Answer" onClick='location.href="{{ path('subcomment_create', {'comment_id': comment.id,
-                        'article_id':comment.article.id }) }}"'>
+                <input type="button" class="button btn btn-default btn-xs" value="Answer"
+                       onClick='location.href="{{ path('subcomment_create', {'comment_id': comment.id,
+                       'article_id':comment.article.id }) }}"'>
             </section>
 
             <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
-
         {% endif %}
     {% endfor %}
 

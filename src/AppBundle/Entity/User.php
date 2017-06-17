@@ -82,7 +82,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=75, unique=true)
-     * @Assert\NotBlank(message = "please enter your second name")
+     * @Assert\NotBlank(message = "please enter your email")
      * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;

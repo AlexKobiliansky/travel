@@ -15,7 +15,7 @@
 /vendor/
 /web/bundles/
 .idea/
-
+/src/AppBundle/Recources/config
 
 
 .php_cs.cache
