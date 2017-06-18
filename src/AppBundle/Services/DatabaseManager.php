@@ -28,6 +28,9 @@ class DatabaseManager
 
             $this->em->persist($object);
             $this->em->flush();
+        } else {
+            $this->em->persist($object);
+            $this->em->flush();
         }
     }
 
@@ -42,6 +45,9 @@ class DatabaseManager
         if ($object instanceof Article || $object instanceof Comment) {
             $object->setDateUpdated(new \DateTime("now"));
 
+            $this->em->persist($object);
+            $this->em->flush();
+        } else {
             $this->em->persist($object);
             $this->em->flush();
         }

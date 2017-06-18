@@ -43,16 +43,10 @@ class UserController extends Controller
         $user = new User;
 
         $form = $this->createForm(UserType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($user);
-            $em->flush();
+            $this->get('app.dbManager')->create($user);
 
             return $this->redirectToRoute('user_list');
         }
@@ -68,11 +62,9 @@ class UserController extends Controller
      */
     public function deleteAction(User $user)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($user);
-        $em->flush();
+        $this->get('app.dbManager')->delete($user);
 
-        return $this->redirect($this->generateUrl('user_list'));
+        return $this->redirectToRoute('user_list');
     }
 
     /**
@@ -82,8 +74,6 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, User $user)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if (!$user) {
             throw $this->createNotFoundException('Unable to find User');
         }
@@ -92,12 +82,9 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+            $this->get('app.dbManager')->update($user);
 
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('user_list'));
+            return $this->redirectToRoute('user_list');
         }
 
         return $this->render('User\update.html.twig', array(
