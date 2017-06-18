@@ -22,4 +22,20 @@ class DatabaseManager
             $this->em->flush();
         }
     }
+
+    public function delete($object)
+    {
+        $this->em->remove($object);
+        $this->em->flush();
+    }
+
+    public function update($object)
+    {
+        if ($object instanceof Article) {
+            $object->setDateUpdated(new \DateTime("now"));
+
+            $this->em->persist($object);
+            $this->em->flush();
+        }
+    }
 }

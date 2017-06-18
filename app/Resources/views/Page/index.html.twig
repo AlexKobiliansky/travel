@@ -40,6 +40,13 @@
                         </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
                 </p>
 
+                {% if article.dateUpdated %}
+                    <p>
+                        Updated by <span class="author"><a href="#">{{ random (article.users) }}</a></span>
+                        at {{ article.dateUpdated|date('G:i, j.m.Y') }}
+                    </p>
+                {% endif %}
+
                 {% if article.tags|length > 0 %}
                     <p>
                         Tags: {% for tag in article.tags %}

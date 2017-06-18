@@ -25,8 +25,15 @@
         <p>Posted by {% for user in article.users %}
             <span class="author">
                 <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
-            </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
+            </span> {% endfor %} at {{ article.dateCreated|date('G:i, j.m.Y') }}
         </p>
+
+        {% if article.dateUpdated %}
+            <p>
+                Updated by <span class="author"><a href="#">{{ random (article.users) }}</a></span>
+                at {{ article.dateUpdated|date('G:i, j.m.Y') }}
+            </p>
+        {% endif %}
 
         {% if article.tags|length > 0 %}
             <p>Tags: {% for tag in article.tags %}
@@ -35,6 +42,7 @@
                     </span> {% endfor %}
             </p>
         {% endif %}
+
     </footer>
 
     <h3><a name="comments"></a>Comments</h3>

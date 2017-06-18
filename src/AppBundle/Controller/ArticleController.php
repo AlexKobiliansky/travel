@@ -70,11 +70,9 @@ class ArticleController extends Controller
 
     public function deleteAction(Article $article)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($article);
-        $em->flush();
+        $this->get('app.dbManager')->delete($article);
 
-        return $this->redirect($this->generateUrl('homepage'));
+        return $this->redirectToRoute('homepage');
     }
 
     /**
@@ -84,8 +82,6 @@ class ArticleController extends Controller
      */
     public function updateAction(Request $request, Article $article)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if (!$article) {
             throw $this->createNotFoundException('Unable to find Article');
         }
@@ -94,12 +90,9 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $article = $form->getData();
+            $this->get('app.dbManager')->update($article);
 
-            $em->persist($article);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('Article\update.html.twig', array(
