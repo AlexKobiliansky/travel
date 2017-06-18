@@ -52,9 +52,11 @@ class CommentController extends Controller
     /**
      * @Route ("/subcomment_create/{article_id}/{comment_id}",
      * requirements={"article_id":"\d+", "comment_id":"\d+"}, name="subcomment_create")
+     * @ParamConverter("article", class="AppBundle:Article", options={"id" = "article_id"})
+     * @ParamConverter("comment", class="AppBundle:Comment", options={"id" = "comment_id"})
      */
 
-    public function subcommentCreateAction(Request $request, $article_id, $comment_id)
+    public function subcommentCreateAction(Request $request, Article $article, Comment $comment)
     {
         $subcomment = new Comment;
 
@@ -62,35 +64,18 @@ class CommentController extends Controller
 
         $form->handleRequest($request);
 
-        $article = $this->getDoctrine()
-            ->getRepository('AppBundle:Article')
-            ->find($article_id);
-
-        $comment = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->find($comment_id);
+        $author = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->find(rand(1, 10));
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $author = $this->getDoctrine()
-                ->getRepository('AppBundle:User')
-                ->find(rand(2, 10));
-
-            $subcomment->setArticle($article);
-
-            $subcomment->setAuthor($author);
-
-            $date = new \DateTime("now");
-            $subcomment->setDateCreated($date);
             $subcomment->setParent($comment);
-            $subcomment->setApproved(false);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($subcomment);
-            $em->flush();
+            $this->get('app.dbManager')->create($subcomment, $article, $author);
 
-            return $this->redirect($this->generateUrl('show_article', array(
+            return $this->redirectToRoute('show_article', array(
                 'slug' => $article->getSlug(),
-            )));
+            ));
         }
 
         return $this->render('Comment/subcomment_form.html.twig', array(
@@ -103,18 +88,12 @@ class CommentController extends Controller
     /**
      * @Route ("/subcomment_show/{article_id}/{comment_id}",
      * requirements={"article_id":"\d+", "comment_id":"\d+"}, name="subcomment_show")
+     * @ParamConverter("article", class="AppBundle:Article", options={"id" = "article_id"})
+     * @ParamConverter("comment", class="AppBundle:Comment", options={"id" = "comment_id"})
      */
 
-    public function subcommentShowAction(Request $request, $article_id, $comment_id)
+    public function subcommentShowAction(Request $request, Article $article, Comment $comment)
     {
-        $article = $this->getDoctrine()
-            ->getRepository('AppBundle:Article')
-            ->find($article_id);
-
-        $comment = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->find($comment_id);
-
         return $this->render('Comment/subcomments.html.twig', array(
             'article' => $article,
             'comment' => $comment,
@@ -123,21 +102,14 @@ class CommentController extends Controller
 
     /**
      * @Route("/delete/{id}", name="comment_delete", requirements={"id":"\d+"})
+     * @ParamConverter("comment", class="AppBundle:Comment")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, Comment $comment)
     {
-        $comment = $this->getDoctrine()
-            ->getRepository('AppBundle:Comment')
-            ->find($id);
+        $this->get('app.dbManager')->delete($comment);
 
-        $article = $comment->getArticle();
-
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($comment);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('show_article', array(
-            'slug' => $article->getSlug(),
-        )));
+        return $this->redirectToRoute('show_article', array(
+            'slug' => $comment->getArticle()->getSlug(),
+        ));
     }
 }
