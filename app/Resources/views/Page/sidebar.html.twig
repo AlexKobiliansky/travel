@@ -1,39 +1,52 @@
-<header>
+
+<a role="button" data-toggle="collapse" href="#tagCloud" aria-expanded="false" aria-controls="collapseExample">
     <h3>Tag Cloud</h3>
-</header>
+</a>
 
 
-{% for tag in tags %}
-    <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">{{ tag.name }}</a>
-{% else %}
-    <p>There are no tags</p>
-{% endfor %}
+<div class="collapse in" id="tagCloud">
+    <div class="well">
+        {% for tag in tags %}
+            <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">{{ tag.name }}</a>
+        {% else %}
+            <p>There are no tags</p>
+        {% endfor %}
+    </div>
+</div>
 
-<header>
+<a role="button" data-toggle="collapse" href="#categories" aria-expanded="false" aria-controls="collapseExample">
     <h3>Categories</h3>
-</header>
+</a>
 
-<ul>
-    {% for category in categories %}
-        {% if(category.parent == null) %}
-            <li>
-                <a href="{{ path('article_list_by_category', {'slug':category.slug}) }}"> {{ category.name }}</a>
-                {% include 'Page/categories.html.twig' with {'categories':category.children} %}
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
+<div class="collapse in" id="categories">
+    <div class="well">
+        <ul>
+            {% for category in categories %}
+                {% if(category.parent == null) %}
+                    <li>
+                        <a href="{{ path('article_list_by_category', {'slug':category.slug}) }}"> {{ category.name }}</a>
+                        {% include 'Page/categories.html.twig' with {'categories':category.children} %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
-<header>
+<a role="button" data-toggle="collapse" href="#categories" aria-expanded="false" aria-controls="collapseExample">
     <h3>Latest comments</h3>
-</header>
+</a>
 
-{% for comment in latestComments %}
-     <p>
-         <b>{{ comment.author.name }} {{ comment.author.surname }}</b>
-         comented on <i><b>{{ comment.article.title }}:</b></i>
-         {{ comment.content }}
-     </p>
-{% else %}
-    <p>There are no comments</p>
-{% endfor %}
+<div class="collapse in" id="categories">
+    <div class="well">
+        {% for comment in latestComments %}
+             <p>
+                 <b>{{ comment.author.name }} {{ comment.author.surname }}</b>
+                 comented on <i><b>{{ comment.article.title }}:</b></i>
+                 {{ comment.content }}
+             </p>
+        {% else %}
+            <p>There are no comments</p>
+        {% endfor %}
+    </div>
+</div>
