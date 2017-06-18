@@ -35,11 +35,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tag = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tag);
-            $em->flush();
+            $this->get('app.dbManager')->create($tag);
 
             return $this->redirectToRoute('tag_list');
         }
@@ -57,9 +53,7 @@ class TagController extends Controller
      */
     public function deleteAction(Tag $tag)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($tag);
-        $em->flush();
+        $this->get('app.dbManager')->delete($tag);
 
         return $this->redirect($this->generateUrl('tag_list'));
     }
@@ -70,8 +64,6 @@ class TagController extends Controller
      */
     public function updateAction(Request $request, Tag $tag)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if (!$tag) {
             throw $this->createNotFoundException('Unable to find Tag');
         }
@@ -80,10 +72,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tag = $form->getData();
-
-            $em->persist($tag);
-            $em->flush();
+            $this->get('app.dbManager')->update($tag);
 
             return $this->redirect($this->generateUrl('tag_list'));
         }

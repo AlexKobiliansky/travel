@@ -34,11 +34,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $category = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($category);
-            $em->flush();
+            $this->get('app.dbManager')->create($category);
 
             return $this->redirectToRoute('category_list');
         }
@@ -55,9 +51,7 @@ class CategoryController extends Controller
      */
     public function deleteAction(Category $category)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($category);
-        $em->flush();
+        $this->get('app.dbManager')->delete($category);
 
         return $this->redirect($this->generateUrl('category_list'));
     }
@@ -68,8 +62,6 @@ class CategoryController extends Controller
      */
     public function updateAction(Request $request, Category $category)
     {
-        $em = $this->getDoctrine()->getManager();
-
         if (!$category) {
             throw $this->createNotFoundException('Unable to find Category');
         }
@@ -78,8 +70,7 @@ class CategoryController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($category);
-            $em->flush();
+            $this->get('app.dbManager')->update($category);
 
             return $this->redirect($this->generateUrl('category_list'));
         }
