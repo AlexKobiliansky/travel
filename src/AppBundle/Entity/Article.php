@@ -87,7 +87,7 @@ class Article
      *
      * @ORM\Column(name="approved", type="boolean")
      */
-    private $approved;
+    private $approved = false;
 
     /**
      * @var int
@@ -204,7 +204,7 @@ class Article
      */
     public function setDateCreated($dateCreated)
     {
-        $this->dateCreated = new $dateCreated;
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }
@@ -250,7 +250,7 @@ class Article
      *
      * @return Article
      */
-    public function setApproved($approved)
+    public function setApproved($approved = false)
     {
         $this->approved = $approved;
 

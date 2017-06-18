@@ -53,15 +53,7 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $article = $form->getData();
-
-            $date = new \DateTime("now");
-            $article->setDateCreated($date);
-            $article->setApproved(false);
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($article);
-            $em->flush();
+            $this->get('app.dbManager')->create($article);
 
             return $this->redirectToRoute('homepage');
         }
@@ -177,7 +169,7 @@ class ArticleController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('AppBundle:User')->findOneBySlug($slug);
-//dump($user); die();
+
         $articles = $em->getRepository('AppBundle:Article')->getByAuthor($user);
 
         $authorName = $user->getName(). " " . $user->getSurname();
