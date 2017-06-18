@@ -45,7 +45,7 @@ class CommentController extends Controller
 
         return $this->render('Comment/form.html.twig', array(
             'comment' => $comment,
-            'form' => $form->createView(),
+            'form'    => $form->createView(),
             'article' => $article));
     }
 
@@ -110,6 +110,35 @@ class CommentController extends Controller
 
         return $this->redirectToRoute('show_article', array(
             'slug' => $comment->getArticle()->getSlug(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/update/{id}", name="comment_update", requirements={"id":"\d+"} )
+     * @ParamConverter("comment", class="AppBundle:Comment")
+     */
+    public function updateAction(Request $request, Comment $comment)
+    {
+        if (!$comment) {
+            throw $this->createNotFoundException('Unable to find Comment');
+        }
+
+        $form = $this->createForm(CommentType::class, $comment, ["validation_groups" => "edit"]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->get('app.dbManager')->update($comment);
+
+            return $this->redirectToRoute('show_article', array(
+                'slug' => $comment->getArticle()->getSlug()
+            ));
+        }
+
+        return $this->render('Comment\update.html.twig', array(
+            'comment' => $comment,
+            'article' => $comment->getArticle(),
+            'form'    => $form->createView(),
         ));
     }
 }

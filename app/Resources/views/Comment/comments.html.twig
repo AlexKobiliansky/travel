@@ -9,7 +9,8 @@
 
         <div class="comment-header">
             <p><span id="login">{{ comment.author.login }}</span> <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
-            <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a></p>
+            <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
+            <a href="{{ path('comment_update', {'id':comment.id}) }}#comments"><span class="glyphicon glyphicon-edit"></span></a></p>
         </div>
 
         <div class="comment-content">

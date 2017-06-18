@@ -39,7 +39,7 @@ class DatabaseManager
 
     public function update($object)
     {
-        if ($object instanceof Article) {
+        if ($object instanceof Article || $object instanceof Comment) {
             $object->setDateUpdated(new \DateTime("now"));
 
             $this->em->persist($object);
