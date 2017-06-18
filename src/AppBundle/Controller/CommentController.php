@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Form\CommentType;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Article;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class CommentController
@@ -18,10 +20,10 @@ class CommentController extends Controller
 {
     /**
      * @Route ("/create/{article_id}", requirements={"article_id":"\d+"}, name="comment_create")
-     *
+     * @ParamConverter("article", class="AppBundle:Article", options={"id" = "article_id"})
      */
 
-    public function createAction(Request $request, $article_id)
+    public function createAction(Request $request, Article $article)
     {
         $comment = new Comment();
 
@@ -29,40 +31,22 @@ class CommentController extends Controller
 
         $form->handleRequest($request);
 
+        $author = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->find(rand(1, 10));
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment = $form->getData();
+            $this->get('app.dbManager')->create($comment, $article, $author);
 
-            $article = $this->getDoctrine()
-                ->getRepository('AppBundle:Article')
-                ->find($article_id);
-
-            $author = $this->getDoctrine()
-                ->getRepository('AppBundle:User')
-                ->find(rand(2, 10));
-
-            $comment->setArticle($article);
-
-            $comment->setAuthor($author);
-
-            $date = new \DateTime("now");
-            $comment->setDateCreated($date);
-            $comment->setApproved(false);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
-
-            $form->isEmpty();
-
-            return $this->redirect($this->generateUrl('show_article', array(
+            return $this->redirectToRoute('show_article', array(
                 'slug' => $article->getSlug(),
-            )));
+            ));
         }
 
         return $this->render('Comment/form.html.twig', array(
             'comment' => $comment,
             'form' => $form->createView(),
-            'id' => $article_id));
+            'article' => $article));
     }
 
     /**
@@ -87,8 +71,6 @@ class CommentController extends Controller
             ->find($comment_id);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$comment = $form->getData();
-
             $author = $this->getDoctrine()
                 ->getRepository('AppBundle:User')
                 ->find(rand(2, 10));

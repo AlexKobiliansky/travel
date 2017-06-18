@@ -48,7 +48,7 @@ class Comment
      *
      * @ORM\Column(name="approved", type="boolean")
      */
-    private $approved;
+    private $approved = false;
 
     /**
      * @var int

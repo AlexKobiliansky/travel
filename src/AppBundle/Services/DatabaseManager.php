@@ -3,6 +3,7 @@
 namespace AppBundle\Services;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Comment;
 
 class DatabaseManager
 {
@@ -13,9 +14,16 @@ class DatabaseManager
         $this->em = $em;
     }
 
-    public function create($object)
+    public function create($object, $article = null, $author = null)
     {
         if ($object instanceof Article) {
+            $object->setDateCreated(new \DateTime("now"));
+
+            $this->em->persist($object);
+            $this->em->flush();
+        } elseif ($object instanceof Comment) {
+            $object->setArticle($article);
+            $object->setAuthor($author);
             $object->setDateCreated(new \DateTime("now"));
 
             $this->em->persist($object);
