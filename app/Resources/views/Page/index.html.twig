@@ -37,7 +37,7 @@
                     Posted by {% for user in article.users %}
                         <span class="author">
                             <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
-                        </span> {% endfor %} at {{ article.dateCreated|date('h:iA') }}
+                        </span> {% endfor %} at {{ article.dateCreated|time_diff }}
                 </p>
 
                 {% if article.dateUpdated %}

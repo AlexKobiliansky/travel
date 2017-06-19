@@ -11,3 +11,8 @@ services:
     app.dbManager:
         class: AppBundle\Services\DatabaseManager
         arguments: ["@doctrine.orm.entity_manager"]
+
+    app.twig.extension.time_diff:
+        class: Twig_Extensions_Extension_Date
+        tags:
+            - { name: 'twig.extension' }
