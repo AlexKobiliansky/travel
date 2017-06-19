@@ -16,3 +16,9 @@ services:
         class: Twig_Extensions_Extension_Date
         tags:
             - { name: 'twig.extension' }
+
+    app.twig.extension.greeting:
+        class: AppBundle\Twig\Holidays
+        public: true
+        tags:
+            - { name: twig.extension }
