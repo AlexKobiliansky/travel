@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity(fields={"email"}, message="This value is already used. Please choose a unique value" )
  * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -506,6 +506,7 @@ class User implements UserInterface
             $this->id,
             $this->login,
             $this->password,
+            $this->avatar,
 
         ));
     }
@@ -517,6 +518,7 @@ class User implements UserInterface
             $this->id,
             $this->login,
             $this->password,
+            $this->avatar,
             ) = unserialize($serialized);
     }
 

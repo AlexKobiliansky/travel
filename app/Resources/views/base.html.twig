@@ -19,8 +19,23 @@
                 <li role="presentation" class="active"><a href="{{ path('homepage') }}">Home</a></li>
                 <li role="presentation"><a href="{{ path ('about')}}">About</a></li>
                 <li role="presentation"><a href="{{ path('contact') }}">Contact</a></li>
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <li role="presentation"><a>Administration</a></li>
+                {% endif %}
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li role="presentation" class="adminpart dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ asset('avatars/'~ app.user.avatar )}}" height="22"> {{ app.user.name }} {{ app.user.surname }}
+                            <span class="caret"></span></a>
+
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li role="presentation" class="adminpart"><a href="{{ path('login') }}">Login</a></li>
                 {% endif %}
             </ul>
         {% endblock %}

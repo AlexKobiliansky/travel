@@ -5,8 +5,10 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-<form action="{{ path('login') }}" method="post">
-    <label for="username">Username:</label>
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+    <form action="{{ path('login') }}" method="post">
+    <label for="username">Login:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
 
     <label for="password">Password:</label>
