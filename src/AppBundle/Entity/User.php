@@ -45,11 +45,17 @@ class User implements UserInterface
     private $login;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=64)
      * @Assert\Type("string")
-     * @Assert\NotBlank(message = "please enter your password")
+     *
      * @Assert\Length(
      *     min = 6,
      *     max = 50,
@@ -59,11 +65,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
-     */
-    private $plainPassword;
 
     /**
      * @var string
@@ -181,14 +182,13 @@ class User implements UserInterface
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    private $enabled;
 
 
     public function __constuct()
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
-        $this->isActive = true;
     }
 
 
@@ -226,6 +226,11 @@ class User implements UserInterface
         return $this->login;
     }
 
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
     /**
      * Set password
      *
@@ -233,9 +238,9 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function setPassword($password)
+    public function setPassword($plainpassword)
     {
-        $this->password = $password;
+        $this->password = $plainpassword;
 
         return $this;
     }
@@ -532,8 +537,16 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword($password)
+    public function setEnabled($enabled)
     {
-        $this->plainPassword = $password;
+        $this->enabled = $enabled;
+        return $this;
     }
+
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+
 }

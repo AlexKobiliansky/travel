@@ -23,8 +23,8 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
            # algorithm: bcrypt
            # cost: 12
-        AppBundle\Entity\User:
-            algorithm: plaintext
+        AppBundle\Entity\User: plaintext
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -41,6 +41,8 @@ security:
             logout:
                 path: /logout
                 target: /
+            provider: our_db_provider
+
 
 
     role_hierarchy:

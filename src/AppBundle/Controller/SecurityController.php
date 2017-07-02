@@ -50,13 +50,14 @@ class SecurityController extends Controller
             $password = $this->get('security.password_encoder')
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setEnabled(true);
 
             $this->get('app.dbManager')->create($user);
 
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('User/create.html.twig', array(
+        return $this->render('security/registration.html.twig', array(
             'form' => $form->createView()
         ));
     }
