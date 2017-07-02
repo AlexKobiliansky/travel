@@ -56,3 +56,5 @@ body {margin-bottom: 60px;}
 .profile-info-label {font-size: 16px; width: 90px; display: inline-block}
 .profile-info {padding-top: 5px}
 .profile {padding-top: 10px}
+.badge a{color: white}
+.badge a:hover{background-color: transparent; color:#1b6d85}
