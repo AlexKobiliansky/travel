@@ -38,3 +38,21 @@ a:hover {text-decoration: none; color: #0000F0; background-color: #ccc}
 
 .adminpart{float:right!important }
 
+html {position: relative; min-height: 100%;}
+body {margin-bottom: 60px;}
+#footer {position: absolute; bottom: 0; width: 90%; height: 45px; background-color: #f5f5f5;}
+
+#profile-photo, #profile-info {background-color: #f5f5f5; padding: 20px }
+
+#profile-photo img {width: 100%; }
+
+.author-name {font-size: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px}
+
+#profile-info .info {padding-top: 15px}
+
+.info .info-label {font-size: 16px; font-weight: 700; width: 165px; display: inline-block}
+.info .info-info{font-size: 15px}
+
+.profile-info-label {font-size: 16px; width: 90px; display: inline-block}
+.profile-info {padding-top: 5px}
+.profile {padding-top: 10px}

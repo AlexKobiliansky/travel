@@ -404,6 +404,11 @@ class User implements UserInterface, \Serializable
         return $this->articles;
     }
 
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
     public function addArticle(Article $articles)
     {
         if (!$this->articles->contains($articles)) {

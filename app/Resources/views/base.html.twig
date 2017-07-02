@@ -31,6 +31,7 @@
                             <span class="caret"></span></a>
 
                         <ul class="dropdown-menu">
+                            <li><a href="{{ path('user_profile', {'id': app.user.id } ) }}">Profile</a></li>
                             <li><a href="{{ path('logout') }}">Logout</a></li>
                         </ul>
                     </li>
@@ -40,6 +41,7 @@
             </ul>
         {% endblock %}
 
+        {% block slider %}
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="20000">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -70,6 +72,7 @@
             <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
+        {% endblock %}
 
         <div class="row">
             <div class="col-sm-9">
@@ -86,11 +89,13 @@
             </div>
         </div>
 
-        <div class="panel-footer">
-            {% block footer %}
+
+        {% block footer %}
+            <footer id="footer">
                 created by Alex Kobilianskiy
-            {% endblock %}
-        </div>
+            </footer>
+        {% endblock %}
+
     </div>
 
     {% block javascripts %}

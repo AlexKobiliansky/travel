@@ -47,7 +47,8 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @Route("/update/{id}", name="user_update", requirements={"id":"\d+"} )
+     * @param User $user
+     * @Route("/update/{id}", name="user_update", requirements={"id":"\d+"})
      * @ParamConverter("user", class="AppBundle:User")
      */
     public function updateAction(Request $request, User $user)
@@ -68,6 +69,20 @@ class UserController extends Controller
         return $this->render('User\update.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @Route ("/profile/{id}", name="user_profile", requirements={"id":"\d+"})
+     * @ParamConverter("user", class="AppBundle:User")
+     */
+    public function profileAction(Request $request, User $user)
+    {
+        //dump($user); die();
+        return $this->render('User\profile.html.twig', array(
+            'user' => $user,
         ));
     }
 }

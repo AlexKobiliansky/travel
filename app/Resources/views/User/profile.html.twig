@@ -1,0 +1,78 @@
+{% extends 'layout.html.twig' %}
+
+
+
+{% block body %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">My articles <span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Create <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Article</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Category</a></li>
+                            <li><a href="#">Tag</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-sm-5">
+            <section id="profile-photo">
+                {% if not user.avatar %}
+                    <td><img src="{{ asset('avatars/no_avatar.jpg')}}" width="60"></td>
+                {% else %}
+                    <img src="{{ asset('avatars/'~ user.avatar )}}">
+                {% endif %}
+                <div class="profile">
+                    <div class="profile-info">
+                        <div class="profile-info-label">
+                            Articles:
+                        </div>
+                        <span class="badge">
+                            {{ user.articles|length }}
+                        </span>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-info-label">
+                            Comments:
+                        </div>
+                        <span class="badge">
+                            {{ user.comments|length }}
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-sm-7">
+            <section id="profile-info">
+                <div class="author-name">
+                    {{ user.name }} {{ user.surname }}
+                </div>
+
+                <div class="info">
+                    <div class="info-label">Email: </div>
+                    <span class="info-info">{{ user.email }}</span>
+                </div>
+
+                <div class="info">
+                    <div class="info-label">Birthday: </div>
+                    <span class="info-info">{{ user.dateOfBirth|date('d.m.Y') }}</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
