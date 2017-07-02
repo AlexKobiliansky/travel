@@ -38,6 +38,8 @@ security:
                 login_path: login
                 check_path: login
                 default_target_path: /
+                username_parameter: login[login]
+                password_parameter: login[password]
             logout:
                 path: /logout
                 target: /

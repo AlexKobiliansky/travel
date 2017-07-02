@@ -1,18 +1,18 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
+
+    <h3>Enter your data</h3>
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-    <form action="{{ path('login') }}" method="post">
-    <label for="username">Login:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
-    <button type="submit">login</button>
-</form>
+    <p>click here for <a href="{{ path('registration') }}">registration</a></p>
 {% endblock %}

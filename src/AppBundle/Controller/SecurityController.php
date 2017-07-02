@@ -5,8 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use AppBundle\Form\UserType;
+use AppBundle\Form\LoginType;
 use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 
 class SecurityController extends Controller
 {
@@ -23,9 +24,18 @@ class SecurityController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', array(
+
+        $form = $this->createForm(LoginType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->render('security\login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
+            'form'          => $form->createView(),
         ));
     }
 
