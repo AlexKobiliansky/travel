@@ -108,5 +108,11 @@ vich_uploader:
             upload_destination:  '%kernel.root_dir%/../web/avatars'
             namer:               vich_uploader.namer_uniqid
             inject_on_load:      false
-
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
 

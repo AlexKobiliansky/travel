@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -19,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(fields={"email"}, message="This value is already used. Please choose a unique value" )
  * @Vich\Uploadable
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -46,7 +47,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=50)
+     * @ORM\Column(name="password", type="string", length=64)
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "please enter your password")
      * @Assert\Length(
@@ -57,6 +58,12 @@ class User
      * )
      */
     private $password;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     /**
      * @var string
@@ -171,11 +178,17 @@ class User
      */
     private $slug;
 
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
 
     public function __constuct()
     {
         $this->comments = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->isActive = true;
     }
 
 
@@ -470,5 +483,57 @@ class User
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_AUTHOR');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->login,
+            $this->password,
+
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->login,
+            $this->password,
+            ) = unserialize($serialized);
+    }
+
+    public function getUsername()
+    {
+        return $this->login;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 }

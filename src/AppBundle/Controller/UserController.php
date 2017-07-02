@@ -35,28 +35,6 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @Route("/create", name="user_create")
-     */
-    public function createAction(Request $request)
-    {
-        $user = new User;
-
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.dbManager')->create($user);
-
-            return $this->redirectToRoute('user_list');
-        }
-
-        return $this->render('User/create.html.twig', array(
-            'form' => $form->createView()
-        ));
-    }
-
-    /**
      * @Route("/delete/{id}", name="user_delete", requirements={"id":"\d+"})
      * @ParamConverter("user", class="AppBundle:User")
      */

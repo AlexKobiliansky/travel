@@ -19,6 +19,9 @@
                 <li role="presentation" class="active"><a href="{{ path('homepage') }}">Home</a></li>
                 <li role="presentation"><a href="{{ path ('about')}}">About</a></li>
                 <li role="presentation"><a href="{{ path('contact') }}">Contact</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li role="presentation"><a>Administration</a></li>
+                {% endif %}
             </ul>
         {% endblock %}
 

@@ -33,6 +33,10 @@ class PageController extends Controller
      */
     public function aboutAction()
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->render('Page/about.html.twig');
     }
 

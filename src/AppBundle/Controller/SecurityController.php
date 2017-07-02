@@ -5,6 +5,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use AppBundle\Form\UserType;
+use AppBundle\Entity\User;
 
 class SecurityController extends Controller
 {
@@ -32,5 +34,30 @@ class SecurityController extends Controller
      */
     public function logoutAction()
     {
+    }
+
+    /**
+     * @Route("/registration", name="registration")
+     */
+    public function registerAction(Request $request)
+    {
+        $user = new User;
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
+            $this->get('app.dbManager')->create($user);
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('User/create.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 }

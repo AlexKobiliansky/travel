@@ -15,6 +15,15 @@ class Enquiry
 {
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @ORM\Column(name="name", type="string", length=50)
      * @Assert\Type("string")
      * @Assert\NotBlank(message = "please enter your first name")

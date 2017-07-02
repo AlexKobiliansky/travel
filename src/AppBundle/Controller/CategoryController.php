@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\CategoryType;
 use AppBundle\Entity\Category;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class CategoryController
@@ -18,12 +17,9 @@ class CategoryController extends Controller
 {
     /**
      * @Route("/list", name="category_list")
-     * @Security("has_role('ROLE_ADMIN')")
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
-
         $em = $this->getDoctrine()->getManager();
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();

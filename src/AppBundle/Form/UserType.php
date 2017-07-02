@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
 {
@@ -22,9 +23,10 @@ class UserType extends AbstractType
                 'required' => false,
             ))
 
-            ->add('password', PasswordType::class, array(
-                'trim' => true,
-                'required' => false,
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options'  => array('label' => 'Password', 'required' => false),
+                'second_options' => array('label' => 'Repeat Password'),
             ))
 
             ->add('avatarFile', FileType::class, array(
