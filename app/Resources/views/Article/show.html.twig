@@ -60,8 +60,11 @@
                     <p>
                         <span id="login">{{ comment.author.login }}</span>
                         <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
-                        <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
-                        <a href="{{ path('comment_update', {'id':comment.id}) }}#comments"><span class="glyphicon glyphicon-edit"></span></a>
+
+                        {% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a href="{{ path('comment_update', {'id':comment.id}) }}#comments"><span class="glyphicon glyphicon-edit"></span></a>
+                        {% endif %}
                     </p>
                 </div>
 
@@ -79,8 +82,12 @@
     {% endfor %}
 
     <section class="add-comment">
-        <h3>Add new Comment</h3>
-        {{ render(controller('AppBundle:Comment:create',{ 'article_id': article.id })) }}
-    </section>
+        {% if is_granted('ROLE_AUTHOR') %}
+            <h3>Add new Comment</h3>
+            {{ render(controller('AppBundle:Comment:create',{ 'article_id': article.id })) }}
+        {% else %}
+            Only <a href="{{ path('login') }}">logged in</a> users can left comments
+            </section>
+        {% endif %}
 
 {% endblock %}

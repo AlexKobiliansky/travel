@@ -27,6 +27,8 @@ class CommentController extends Controller
     {
         $comment = new Comment();
 
+        $this->denyAccessUnlessGranted('create', $comment);
+
         $form = $this->createForm(CommentType::class, $comment);
 
         $form->handleRequest($request);
@@ -57,6 +59,8 @@ class CommentController extends Controller
     public function subcommentCreateAction(Request $request, Article $article, Comment $comment)
     {
         $subcomment = new Comment;
+
+        $this->denyAccessUnlessGranted('create', $subcomment);
 
         $form = $this->createForm(CommentType::class, $subcomment);
 
@@ -102,6 +106,8 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, Comment $comment)
     {
+        $this->denyAccessUnlessGranted('delete', $comment);
+
         $this->get('app.dbManager')->delete($comment);
 
         return $this->redirectToRoute('show_article', array(
@@ -119,6 +125,8 @@ class CommentController extends Controller
         if (!$comment) {
             throw $this->createNotFoundException('Unable to find Comment');
         }
+
+        $this->denyAccessUnlessGranted('edit', $comment);
 
         $form = $this->createForm(CommentType::class, $comment, ["validation_groups" => "edit"]);
         $form->handleRequest($request);

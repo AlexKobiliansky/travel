@@ -29,3 +29,10 @@ services:
             tags:
                 - {name: security.voter}
             public: false
+
+    app.comment_voter:
+                class: AppBundle\Security\CommentVoter
+                arguments: ['@security.access.decision_manager']
+                tags:
+                    - {name: security.voter}
+                public: false

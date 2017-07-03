@@ -187,5 +187,4 @@ class ArticleController extends Controller
             'message'  => $message,
         ));
     }
-
 }
