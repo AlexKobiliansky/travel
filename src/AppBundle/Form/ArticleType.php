@@ -18,37 +18,40 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, array(
-                'trim' => true,
+                'trim'     => true,
                 'required' => false,
             ))
             ->add('content', TextareaType::class, array(
-                'trim' => true,
+                'trim'     => true,
                 'required' => false,
             ))
             ->add('imageFile', FileType::class, array(
                 'required' => false,
             ))
             ->add('users', EntityType::class, array(
-                'class' => 'AppBundle:User',
-                'multiple' => true,
-                'expanded' => true,
-                'label' => 'Author(s)',
+                'class'         => 'AppBundle:User',
+                'multiple'      => true,
+                'expanded'      => true,
+                'label'         => 'Author(s)',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.name', 'ASC');
                 },
             ))
             ->add('category', EntityType::class, array(
-                'class' => 'AppBundle:Category',
+                'class'        => 'AppBundle:Category',
                 'choice_label' => 'name',
             ))
 
             ->add('tags', EntityType::class, array(
-                'class' => 'AppBundle:Tag',
+                'class'    => 'AppBundle:Tag',
                 'multiple' => true,
                 'expanded' => true,
             ))
-            ->add('save', SubmitType::class);
+            ->add('save', SubmitType::class, array(
+                'label' => 'Save changes',
+                'attr'  => array('class' => 'btn-primary'),
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

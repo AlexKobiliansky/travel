@@ -10,9 +10,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ArticleVoter extends Voter
 {
-    // these strings are just invented: you can use anything
-   // const VIEW = 'view';
-    const EDIT = 'edit';
+    const EDIT   = 'edit';
+    const CREATE = 'create';
+    const DELETE = 'delete';
 
     private $decisionManager;
 
@@ -24,7 +24,7 @@ class ArticleVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::EDIT,))) {
+        if (!in_array($attribute, array(self::CREATE, self::EDIT, self::DELETE))) {
             return false;
         }
 
@@ -45,46 +45,25 @@ class ArticleVoter extends Voter
             return false;
         }
 
-       // if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
-         //   return true;
-       // }
+        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+            return true;
+        }
 
         $article = $subject;
 
         switch ($attribute) {
-         //   case self::VIEW:
-       //         return $this->canView($article, $user);
-            case self::EDIT:
-                if (($this->decisionManager->decide($token, ['ROLE_ADMIN'])) ||
-                    $article->getUsers()->contains($user)) {
+            case self::CREATE:
+                if ($this->decisionManager->decide($token, ['ROLE_AUTHOR'])) {
                     return true;
                 }
-               // return $this->canEdit($article, $user);
+                    break;
+            case self::EDIT || self::DELETE:
+                if ($article->getUsers()->contains($user)) {
+                    return true;
+                }
+                    break;
         }
 
-        return false;
-
-       // throw new \LogicException('This code should not be reached!');
-    }
-/*
-    private function canView(Article $article, User $user)
-    {
-        // if they can edit, they can view
-        if ($this->canEdit($article, $user)) {
-            return true;
-        }
         return false;
     }
-
-    private function canEdit(Article $article, User $user)
-    {
-        dump($user); die();
-        if ($article->getUsers()->contains($user))
-        {
-          dump($user); die('=)');
-            return true;
-        }
-        dump($user); die('fff');
-        return false;
-    }*/
 }

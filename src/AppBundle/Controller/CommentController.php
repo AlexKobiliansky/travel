@@ -31,9 +31,7 @@ class CommentController extends Controller
 
         $form->handleRequest($request);
 
-        $author = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->find(rand(1, 10));
+        $author = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('app.dbManager')->create($comment, $article, $author);
@@ -64,9 +62,7 @@ class CommentController extends Controller
 
         $form->handleRequest($request);
 
-        $author = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->find(rand(1, 10));
+        $author = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $subcomment->setParent($comment);

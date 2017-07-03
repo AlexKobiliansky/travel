@@ -1,14 +1,12 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Security\ArticleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Class ArticleController
@@ -49,6 +47,8 @@ class ArticleController extends Controller
     {
         $article = new Article;
 
+        $this->denyAccessUnlessGranted('create', $article);
+
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
@@ -62,8 +62,10 @@ class ArticleController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('Article/create.html.twig', array(
-            'form' => $form->createView()
+        return $this->render('Article/form.html.twig', array(
+            'form'    => $form->createView(),
+            'article' => $article,
+            'form_title' => 'Create new article',
         ));
     }
 
@@ -74,6 +76,8 @@ class ArticleController extends Controller
 
     public function deleteAction(Article $article)
     {
+        $this->denyAccessUnlessGranted('delete', $article, 'You have no permissions to delete this article');
+
         $this->get('app.dbManager')->delete($article);
 
         return $this->redirectToRoute('homepage');
@@ -101,9 +105,10 @@ class ArticleController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('Article\update.html.twig', array(
-            'article' => $article,
-            'form'    => $form->createView(),
+        return $this->render('Article\form.html.twig', array(
+            'article'    => $article,
+            'form'       => $form->createView(),
+            'form_title' => 'Update information about article "'.$article->getTitle().'"',
         ));
     }
 
@@ -183,18 +188,4 @@ class ArticleController extends Controller
         ));
     }
 
-
-    public function getOwner($article)
-    {
-        // $em = $this->getDoctrine()->getManager();
-
-       // $article = $em->getRepository('AppBundle:Article')->find($id);
-
-        $users = $article->getUsers();
-        $user = $this->getUser();
-        $bool = $users->contains($user);
-        dump($bool);
-        die();
-        return $article->getUsers();
-    }
 }

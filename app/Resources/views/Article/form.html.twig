@@ -1,6 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
+    <header><a name="article"></a>
+        <h3>{{ form_title }}</h3>
+    </header>
 
     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
     {{ form_start(form) }}
@@ -13,5 +16,4 @@
         {{ form_row(form.users) }}
     </span>
     {{ form_end(form) }}
-
 {% endblock %}
