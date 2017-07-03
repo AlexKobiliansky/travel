@@ -22,3 +22,10 @@ services:
         public: true
         tags:
             - { name: twig.extension }
+
+    app.article_voter:
+            class: AppBundle\Security\ArticleVoter
+            arguments: ['@security.access.decision_manager']
+            tags:
+                - {name: security.voter}
+            public: false

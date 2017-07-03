@@ -4,6 +4,9 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\SecurityController;
 
 class DatabaseManager
 {
@@ -25,6 +28,12 @@ class DatabaseManager
             $object->setArticle($article);
             $object->setAuthor($author);
             $object->setDateCreated(new \DateTime("now"));
+
+            $this->em->persist($object);
+            $this->em->flush();
+        } elseif ($object instanceof User) {
+            $object->setEnabled(true);
+            $object->setRoles(array('ROLE_AUTHOR'));
 
             $this->em->persist($object);
             $this->em->flush();

@@ -180,9 +180,14 @@ class User implements UserInterface, \Serializable
     private $slug;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = array();
 
 
     public function __constuct()
@@ -495,11 +500,6 @@ class User implements UserInterface, \Serializable
         return $this->slug;
     }
 
-    public function getRoles()
-    {
-        return array('ROLE_AUTHOR');
-    }
-
     public function eraseCredentials()
     {
     }
@@ -553,5 +553,18 @@ class User implements UserInterface, \Serializable
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_AUTHOR';
+        return array_unique($roles);
+    }
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+        // allows for chaining
+        return $this;
     }
 }

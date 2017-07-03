@@ -57,7 +57,7 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User');
         }
 
-        $form = $this->createForm(UserType::class, $user, ["validation_groups" => "edit"]);
+        $form = $this->createForm(UserType::class, $user, ["validation_groups" => "edit", ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,7 +80,6 @@ class UserController extends Controller
      */
     public function profileAction(Request $request, User $user)
     {
-        //dump($user); die();
         return $this->render('User\profile.html.twig', array(
             'user' => $user,
         ));

@@ -4,19 +4,29 @@
     {% if message %}
         <p class="bg-info message">{{ message }}</p>
     {% endif %}
+
     {{ greeting()|raw}}
+
     {% for article in articles %}
         <article class="article">
-
             <section class="article-title">
                 <h2><a href="{{ path('show_article', {'slug': article.slug}) }}">{{ article.title }}</a></h2>
                 <span class="category">
-                    Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
+                   Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
                 </span>
+
             </section>
+
+
 
             <div class="date">
                 <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
+                {% if app.user in article.users %}
+                    <span class="glyphicon">
+                        <span class="glyphicon-edit"></span>
+                        <span class="glyphicon-remove"></span>
+                    </span>
+                {% endif %}
             </div>
 
             {% if not article.imageName %}
@@ -27,41 +37,34 @@
 
             <p>{{ article.content(300) }}</p>
             <p class="continue"><a href="{{ path('show_article', { 'slug': article.slug }) }}">Continue reading...</a></p>
+            <p class="continue"><a href="#">options</a>
 
             <footer class="meta">
-
                 <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
                    Likes: {{ article.likes }}</p>
 
-                <p>
-                    Posted by {% for user in article.users %}
+                <p>Posted by {% for user in article.users %}
                         <span class="author">
                             <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
-                        </span> {% endfor %} at {{ article.dateCreated|time_diff }}
-                </p>
+                        </span> {% endfor %} at {{ article.dateCreated|time_diff }}</p>
 
                 {% if article.dateUpdated %}
-                    <p>
-                        Updated by <span class="author"><a href="#">{{ random (article.users) }}</a></span>
-                        at {{ article.dateUpdated|date('G:i, j.m.Y') }}
-                    </p>
+                    <p>Updated by <span class="author"><a href="#">{{ random (article.users) }}</a></span>
+                        at {{ article.dateUpdated|date('G:i, j.m.Y') }}</p>
                 {% endif %}
 
                 {% if article.tags|length > 0 %}
-                    <p>
-                        Tags: {% for tag in article.tags %}
+                    <p>Tags: {% for tag in article.tags %}
                             <span class="tag">
                                 <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
-                            </span> {% endfor %}
-                    </p>
+                            </span> {% endfor %}</p>
                 {% endif %}
             </footer>
-
         </article>
+
     {% else %}
         <p>There are no articles yet</p>
     {% endfor %}
-
 
     <div class="pager">
         {{ knp_pagination_render(articles) }}

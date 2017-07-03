@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Security\ArticleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +53,10 @@ class ArticleController extends Controller
 
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->addUser($this->getUser());
+
             $this->get('app.dbManager')->create($article);
 
             return $this->redirectToRoute('homepage');
@@ -85,6 +89,8 @@ class ArticleController extends Controller
         if (!$article) {
             throw $this->createNotFoundException('Unable to find Article');
         }
+
+        $this->denyAccessUnlessGranted('edit', $article);
 
         $form = $this->createForm(ArticleType::class, $article, ["validation_groups" => "edit"]);
         $form->handleRequest($request);
@@ -175,5 +181,20 @@ class ArticleController extends Controller
             'articles' => $pagination,
             'message'  => $message,
         ));
+    }
+
+
+    public function getOwner($article)
+    {
+        // $em = $this->getDoctrine()->getManager();
+
+       // $article = $em->getRepository('AppBundle:Article')->find($id);
+
+        $users = $article->getUsers();
+        $user = $this->getUser();
+        $bool = $users->contains($user);
+        dump($bool);
+        die();
+        return $article->getUsers();
     }
 }
