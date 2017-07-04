@@ -2,7 +2,7 @@
 
 {% block body %}
     <header>
-        <h3>Users list</h3>
+        <a name="head"></a><h3>Users list</h3>
     </header>
 
     <table class="table table-hover">
@@ -15,6 +15,7 @@
             <th>Phone</th>
             <th>Address</th>
             <th>Date of birth</th>
+            <th>Status</th>
             <th colspan="2">Actions</th>
         </tr>
 
@@ -34,6 +35,11 @@
                 <td>{{ user.phone }}</td>
                 <td>{{ user.address }}</td>
                 <td>{{ user.dateOfBirth|date('j.m.Y') }}</td>
+                {% if user.enabled %}
+                    <td>Enabled</td>
+                {% else %}
+                    <td>Disabled</td>
+                {% endif %}
                 <td><a href="{{ path('user_update', {'id':user.id}) }}">edit</a></td>
                 <td><a href="{{ path('user_delete', {'id':user.id}) }}">delete</a></td>
             </tr>

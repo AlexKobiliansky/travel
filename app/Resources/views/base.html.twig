@@ -21,14 +21,29 @@
                 <li role="presentation"><a href="{{ path('contact') }}">Contact</a></li>
 
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li role="presentation"><a>Administration</a></li>
-                {% endif %}
+                    <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('user_list') }}#head">Users</a></li>
+                            <li><a href="#">Articles</a></li>
+                            <li><a href="#">Comments</a></li>
+                            <li><a href="{{ path('category_list') }}">Categories</a></li>
+                            <li><a href="{{ path('tag_list') }}">Tags</a></li>
+                        </ul>
+                    </li>
+                        {% endif %}
 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li role="presentation" class="adminpart dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ asset('avatars/'~ app.user.avatar )}}" height="22"> {{ app.user.name }} {{ app.user.surname }}
-                            <span class="caret"></span></a>
+                            {% if app.user.avatar %}
+                                <img src="{{ asset('avatars/'~ app.user.avatar )}}" height="22">
+                            {% else %}
+                                <img src="{{ asset('avatars/no_avatar.jpg' )}}" height="22">
+                            {% endif %}
+                            {{ app.user.name }} {{ app.user.surname }}
+                            <span class="caret"></span>
+                        </a>
 
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('user_profile', {'id': app.user.id } ) }}">Profile</a></li>
@@ -36,7 +51,7 @@
                         </ul>
                     </li>
                 {% else %}
-                    <li role="presentation" class="adminpart"><a href="{{ path('login') }}">Login</a></li>
+                    <li role="presentation" class="adminpart"><a href="{{ path('login') }}#login-head">Login</a></li>
                 {% endif %}
             </ul>
         {% endblock %}
