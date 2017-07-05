@@ -1,6 +1,11 @@
-{% for comment in comments %}
+<script>
+    $(".subcommentform").hide();
+</script>
 
-    <section class="comment">
+<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+{% for comment in comments %}
+    <section class="comment" id="{{ comment.id }}">
         {% if not comment.author.avatar %}
             <img src="{{ asset('avatars/no_avatar.jpg') }}">
         {% else %}
@@ -21,12 +26,14 @@
         </div>
 
         {% if not comment.parent.parent %}
-        <input type="button" class="button btn btn-default btn-xs" value="Answer" onClick='location.href="{{ path('subcomment_create', {'comment_id': comment.id,
-            'article_id':comment.article.id }) }}"'>
+
+        <input type="button" id="button" class="button btn btn-default btn-xs" value="Answer" onclick='$("#form"+{{ comment.id }}).show()'>
+            <div class="subcommentform" id="form{{ comment.id }}">
+                {{  render(controller('AppBundle:Comment:subcommentCreate', {'article_id': comment.article.id, 'comment_id':comment.id})) }}
+            </div>
         {% endif %}
     </section>
 
     <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
 
 {% endfor %}
-

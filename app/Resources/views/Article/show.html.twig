@@ -2,6 +2,14 @@
 
 {% block body %}
 
+    <script>
+        $(".subcommentform").hide();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+
+
     <section class="article-title">
         <span class="category">
             Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
@@ -73,9 +81,11 @@
                 </div>
 
                 <input type="button" class="button btn btn-default btn-xs" value="Answer"
-                       onClick='location.href="{{ path('subcomment_create', {'comment_id': comment.id,
-                       'article_id':comment.article.id }) }}"'>
+                       onClick='$("#form"+{{ comment.id }}).show()'>
             </section>
+            <div class="subcommentform" id="form{{ comment.id }}">
+                {{  render(controller('AppBundle:Comment:subcommentCreate', {'article_id': comment.article.id, 'comment_id':comment.id})) }}
+            </div>
 
             <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
         {% endif %}
