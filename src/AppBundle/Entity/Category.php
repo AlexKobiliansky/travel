@@ -44,12 +44,12 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="category", cascade={"remove"})
      */
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent", cascade={"remove"})
      */
     private $children;
 

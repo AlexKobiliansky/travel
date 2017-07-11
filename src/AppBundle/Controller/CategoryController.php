@@ -53,7 +53,7 @@ class CategoryController extends Controller
     {
         $this->get('app.dbManager')->delete($category);
 
-        return $this->redirect($this->generateUrl('category_list'));
+        return $this->redirect($this->generateUrl('category_list').'#header ');
     }
 
     /**
