@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ArticleController
@@ -186,5 +187,22 @@ class ArticleController extends Controller
             'articles' => $pagination,
             'message'  => $message,
         ));
+    }
+
+    /**
+     * @param Article $article
+     * @Route("/article/{id}/like", name="article_like")
+     *
+     * @return Response
+     */
+    public function likeAction(Article $article)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $likes = $article->getLikes();
+        $article->setLikes($likes + 1);
+        $em->persist($article);
+        $em->flush();
+        return new Response($article->getLikes());
     }
 }

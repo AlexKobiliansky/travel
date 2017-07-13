@@ -94,7 +94,7 @@ class Article
      *
      * @ORM\Column(name="likes", type="integer", nullable=true)
      */
-    private $likes;
+    private $likes = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", inversedBy="articles")
@@ -278,7 +278,7 @@ class Article
     {
         $this->likes = $likes;
 
-        return $this;
+       // return $this;
     }
 
     /**

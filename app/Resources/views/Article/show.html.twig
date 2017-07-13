@@ -30,6 +30,11 @@
     </div>
 
     <footer class="meta">
+        <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
+
+            Likes: <span style="cursor: pointer;" id="like" data-id="{{ article.id }}">{{ article.likes }}</span></p>
+
+
         <p>Posted by {% for user in article.users %}
             <span class="author">
                 <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
@@ -101,3 +106,32 @@
         {% endif %}
 
 {% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+
+    <script>
+        $(document).ready(function() {
+            $("#like").bind("click", function(event) {
+                $.ajax({
+                    url: "{{ path('article_like', {'id':article.id}) }}",
+                    type: "GET",
+                    data: ($("#like").attr("data-id")),
+                    dataType: "text",
+                    success: function(result) {
+                        if (result) {
+                            $("#like").text(result);
+                        }
+                        else $("#like").text('?');
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+

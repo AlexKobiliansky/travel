@@ -40,7 +40,8 @@
 
             <footer class="meta">
                 <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
-                   Likes: {{ article.likes }}</p>
+
+                    Likes: <span style="cursor: pointer;" id="like" data-id="{{ article.id }}">{{ article.likes }}</span></p>
 
                 <p>Posted by {% for user in article.users %}
                         <span class="author">
@@ -69,3 +70,5 @@
         {{ knp_pagination_render(articles) }}
     </div>
 {% endblock %}
+
+
