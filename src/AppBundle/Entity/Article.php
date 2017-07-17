@@ -103,6 +103,12 @@ class Article
     private $users;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="liked_articles")
+     * @ORM\JoinTable(name="likes_user_article")
+     */
+    private $liked_users;
+
+    /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="article", cascade={"remove"})
      */
     private $comments;
@@ -127,9 +133,10 @@ class Article
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->users       = new ArrayCollection();
+        $this->comments    = new ArrayCollection();
+        $this->tags        = new ArrayCollection();
+        $this->liked_users = new ArrayCollection();
     }
 
 
@@ -405,5 +412,23 @@ class Article
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function addLikedUser(User $liked_user)
+    {
+        if (!$this->liked_users->contains($liked_user)) {
+            $this->liked_users[] = $liked_user;
+            $liked_user->addLikedArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function deleteLikedUser(User $liked_user)
+    {
+        if ($this->liked_users->contains($liked_user)) {
+            $this->liked_users->removeElement($liked_user);
+            $liked_user->deleteLikedArticle($this);
+        }
     }
 }

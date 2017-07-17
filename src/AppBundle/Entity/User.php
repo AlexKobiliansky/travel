@@ -174,6 +174,11 @@ class User implements UserInterface, \Serializable
     private $articles;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Article", mappedBy="liked_users")
+     */
+    public $liked_articles;
+
+    /**
      * @Gedmo\Slug(fields={"login"})
      * @ORM\Column(length=50)
      */
@@ -192,8 +197,9 @@ class User implements UserInterface, \Serializable
 
     public function __constuct()
     {
-        $this->comments = new ArrayCollection();
-        $this->articles = new ArrayCollection();
+        $this->comments       = new ArrayCollection();
+        $this->articles       = new ArrayCollection();
+        $this->liked_articles = new ArrayCollection();
     }
 
 
@@ -566,5 +572,23 @@ class User implements UserInterface, \Serializable
         $this->roles = $roles;
         // allows for chaining
         return $this;
+    }
+
+    public function addLikedArticle(Article $liked_article)
+    {
+        if (!$this->liked_articles->contains($liked_article)) {
+            $this->liked_articles[] = $liked_article;
+            $liked_article->addLikedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function deleteLikedArticle(Article $liked_article)
+    {
+        if ($this->liked_articles->contains($liked_article)) {
+            $this->liked_articles->removeElement($liked_article);
+            $liked_article->deleteLikedUser($this);
+        }
     }
 }

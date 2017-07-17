@@ -198,9 +198,18 @@ class ArticleController extends Controller
     public function likeAction(Article $article)
     {
 
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $likes = $article->getLikes();
-        $article->setLikes($likes + 1);
+
+        if (!$user->liked_articles->contains($article)){
+            $article->setLikes($likes + 1);
+            $article->addLikedUser($user);
+        }
+        else {
+            $article->setLikes($likes - 1);
+            $article->deleteLikedUser($user);
+        }
         $em->persist($article);
         $em->flush();
         return new Response($article->getLikes());

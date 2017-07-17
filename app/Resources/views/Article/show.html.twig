@@ -32,7 +32,7 @@
     <footer class="meta">
         <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
 
-            Likes: <span style="cursor: pointer;" id="like" data-id="{{ article.id }}">{{ article.likes }}</span></p>
+            Likes: <span style="cursor: pointer; color:red" class=" glyphicon glyphicon-heart" id="like" data-id="{{ article.id }}">{{ article.likes }}</span></p>
 
 
         <p>Posted by {% for user in article.users %}
