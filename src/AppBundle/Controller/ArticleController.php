@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
@@ -197,21 +198,21 @@ class ArticleController extends Controller
      */
     public function likeAction(Article $article)
     {
-
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $likes = $article->getLikes();
 
-        if (!$user->liked_articles->contains($article)){
+        if (!$user->liked_articles->contains($article)) {
             $article->setLikes($likes + 1);
             $article->addLikedUser($user);
-        }
-        else {
+            $color = 'steeltblue';
+        } else {
             $article->setLikes($likes - 1);
             $article->deleteLikedUser($user);
+            $color= 'lightblue';
         }
         $em->persist($article);
         $em->flush();
-        return new Response($article->getLikes());
+        return new JsonResponse(array($article->getLikes(), $color));
     }
 }

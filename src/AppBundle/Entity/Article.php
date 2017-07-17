@@ -431,4 +431,9 @@ class Article
             $liked_user->deleteLikedArticle($this);
         }
     }
+
+    public function getliked_users()
+    {
+        return $this->liked_users;
+    }
 }

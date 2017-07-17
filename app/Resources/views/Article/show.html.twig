@@ -2,13 +2,11 @@
 
 {% block body %}
 
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
     <script>
         $(".subcommentform").hide();
     </script>
-
-    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-
-
 
     <section class="article-title">
         <span class="category">
@@ -30,14 +28,34 @@
     </div>
 
     <footer class="meta">
-        <p>Comments: <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">{{ article.comments|length }}</a>&nbsp &nbsp
+        <p>
+            <span class="glyphicon glyphicon-comment"></span>
+            <a href="{{ path('show_article', {'slug':article.slug}) }}#comments">
+                <span class="badge">
+                    {{ article.comments|length }}
+                </span>
+            </a>&nbsp &nbsp
 
-            Likes: <span style="cursor: pointer; color:red" class=" glyphicon glyphicon-heart" id="like" data-id="{{ article.id }}">{{ article.likes }}</span></p>
+        {% if app.user in article.liked_users %}
+            {% set color = 'steelblue' %}
+        {% else %}
+            {% set color = 'lightblue' %}
+        {% endif %}
 
+            <span class="glyphicon glyphicon-heart" id="like_hart" style="color:{{ color }}"></span>
+            <span class="badge">
+                <span style="cursor: pointer;" id="like" data-id="{{ article.id }}" >
+                    {{ article.likes }}
+                </span>
+            </span>
+        </p>
 
-        <p>Posted by {% for user in article.users %}
+        <p>
+            Posted by {% for user in article.users %}
             <span class="author">
-                <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user }}</a>
+                <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">
+                    {{ user }}
+                </a>
             </span> {% endfor %} at {{ article.dateCreated|date('G:i, j.m.Y') }}
         </p>
 
@@ -50,9 +68,9 @@
 
         {% if article.tags|length > 0 %}
             <p>Tags: {% for tag in article.tags %}
-                    <span class="tag">
-                        <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
-                    </span> {% endfor %}
+                <span class="tag">
+                    <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
+                </span> {% endfor %}
             </p>
         {% endif %}
 
@@ -111,7 +129,6 @@
 
     {{ parent() }}
 
-
     <script>
         $(document).ready(function() {
             $("#like").bind("click", function(event) {
@@ -122,7 +139,9 @@
                     dataType: "text",
                     success: function(result) {
                         if (result) {
-                            $("#like").text(result);
+                            var res = JSON.parse(result);
+                            $("#like").text(res[0]);
+                            $("#like_hart").css('color', res[1]);
                         }
                         else $("#like").text('?');
                     }

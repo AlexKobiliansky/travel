@@ -60,3 +60,6 @@ body {margin-bottom: 60px;}
 .profile {padding-top: 10px}
 .badge a{color: white}
 .badge a:hover{background-color: transparent; color:#1b6d85}
+
+.meta .glyphicon {float:inherit; font-size: 14px; margin: 0 0 0 0px; }
+.meta .badge {font-size: 12px!important}
