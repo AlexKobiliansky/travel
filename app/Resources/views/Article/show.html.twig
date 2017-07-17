@@ -18,15 +18,12 @@
     <div class="date">
         <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
     </div>
-
     {% if article.imageName %}
         <img class="article-image" src="{{ asset('articles/'~ article.imageName )}}">
     {% endif %}
-
     <div>
         <p>{{ article.content }}</p>
     </div>
-
     <footer class="meta">
         <p>
             <span class="glyphicon glyphicon-comment"></span>
@@ -35,13 +32,11 @@
                     {{ article.comments|length }}
                 </span>
             </a>&nbsp &nbsp
-
         {% if app.user in article.liked_users %}
             {% set color = 'steelblue' %}
         {% else %}
             {% set color = 'lightblue' %}
         {% endif %}
-
             <span class="glyphicon glyphicon-heart" id="like_hart" style="color:{{ color }}"></span>
             <span class="badge">
                 <span style="cursor: pointer;" id="like" data-id="{{ article.id }}" >
@@ -65,54 +60,54 @@
                 at {{ article.dateUpdated|date('G:i, j.m.Y') }}
             </p>
         {% endif %}
-
         {% if article.tags|length > 0 %}
-            <p>Tags: {% for tag in article.tags %}
-                <span class="tag">
-                    <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
-                </span> {% endfor %}
+            <p>Tags:
+                {% for tag in article.tags %}
+                    <span class="tag">
+                        <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
+                    </span>
+                {% endfor %}
             </p>
         {% endif %}
-
     </footer>
 
     <h3><a name="comments"></a>Comments</h3>
-
-    {% for comment in comments %}
-        {% if(comment.parent == null) %}
-            <section class="comment">
-                {% if not comment.author.avatar %}
-                    <img src="{{ asset('avatars/no_avatar.jpg') }}">
-                {% else %}
-                    <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
-                {% endif %}
-
-                <div class="comment-header">
-                    <p>
-                        <span id="login">{{ comment.author.login }}</span>
-                        <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
-
+    {% if comments %}
+        {% for comment in comments %}
+            {% if(comment.parent == null) %}
+                <section class="comment">
+                    {% if not comment.author.avatar %}
+                        <img src="{{ asset('avatars/no_avatar.jpg') }}">
+                    {% else %}
+                        <img src="{{ asset('avatars/'~ comment.author.avatar )}}">
+                    {% endif %}
+                    <div class="comment-header">
+                        <p>
+                            <span id="login">{{ comment.author.login }}</span>
+                            <span id="date">{{ comment.dateCreated|date('j.m.Y, G:i') }}</span>
                         {% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('comment_delete', {'id':comment.id}) }}"><span class="glyphicon glyphicon-remove"></span></a>
                             <a href="{{ path('comment_update', {'id':comment.id}) }}#comments"><span class="glyphicon glyphicon-edit"></span></a>
                         {% endif %}
-                    </p>
-                </div>
-
-                <div class="comment-content">
-                    <p>{{ comment.content }}</p>
-                </div>
-
-                <input type="button" class="button btn btn-default btn-xs" value="Answer"
+                        </p>
+                    </div>
+                    <div class="comment-content">
+                        <p>
+                            {{ comment.content }}
+                        </p>
+                    </div>
+                    <input type="button" class="button btn btn-default btn-xs" value="Answer"
                        onClick='$("#form"+{{ comment.id }}).show()'>
-            </section>
-            <div class="subcommentform" id="form{{ comment.id }}">
-                {{  render(controller('AppBundle:Comment:subcommentCreate', {'article_id': comment.article.id, 'comment_id':comment.id})) }}
-            </div>
-
-            <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
-        {% endif %}
-    {% endfor %}
+                </section>
+                <div class="subcommentform" id="form{{ comment.id }}">
+                    {{  render(controller('AppBundle:Comment:subcommentCreate', {'article_id': comment.article.id, 'comment_id':comment.id})) }}
+                </div>
+                <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        There are no comments on this article. Be the first...
+    {% endif %}
 
     <section class="add-comment">
         {% if is_granted('ROLE_AUTHOR') %}
@@ -120,15 +115,12 @@
             {{ render(controller('AppBundle:Comment:create',{ 'article_id': article.id })) }}
         {% else %}
             Only <a href="{{ path('login') }}">logged in</a> users can left comments
-            </section>
         {% endif %}
-
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-
     {{ parent() }}
-
     <script>
         $(document).ready(function() {
             $("#like").bind("click", function(event) {
