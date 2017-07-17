@@ -102,6 +102,7 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->setUpdatedBy($this->getUser());
             $this->get('app.dbManager')->update($article);
 
             return $this->redirectToRoute('homepage');

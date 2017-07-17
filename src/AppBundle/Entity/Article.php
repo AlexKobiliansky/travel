@@ -83,6 +83,12 @@ class Article
     private $dateUpdated;
 
     /**
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id", nullable=true)
+     */
+    private $updatedBy;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="approved", type="boolean")
@@ -435,5 +441,16 @@ class Article
     public function getliked_users()
     {
         return $this->liked_users;
+    }
+
+    public function setUpdatedBy(User $user)
+    {
+        $this->updatedBy = $user;
+        return $this;
+    }
+
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

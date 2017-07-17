@@ -8,6 +8,7 @@
         $(".subcommentform").hide();
     </script>
 
+    <a name="article_title"></a>
     <section class="article-title">
         <span class="category">
             Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
@@ -17,6 +18,12 @@
 
     <div class="date">
         <time>{{ article.dateCreated|date('l, F j, Y') }}</time>
+        {% if app.user in article.users or is_granted('ROLE_ADMIN') %}
+            <span class="glyphicon">
+                        <a href="{{ path('article_update', {'id':article.id}) }}#article"><span class="glyphicon-edit"></span></a>
+                        <a href="{{ path('article_delete', {'id':article.id}) }}"><span class="glyphicon-remove"></span></a>
+                    </span>
+        {% endif %}
     </div>
     {% if article.imageName %}
         <img class="article-image" src="{{ asset('articles/'~ article.imageName )}}">

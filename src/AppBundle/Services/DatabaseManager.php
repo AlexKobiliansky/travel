@@ -5,7 +5,6 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Controller\SecurityController;
 
 class DatabaseManager

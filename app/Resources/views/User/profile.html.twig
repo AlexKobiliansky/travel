@@ -26,6 +26,7 @@
     <div class="row">
         <div class="col-sm-5">
             <section id="profile-photo">
+                <a name="anchor"></a>
                 {% if not user.avatar %}
                     <td><img src="{{ asset('avatars/no_avatar.jpg')}}" width="60"></td>
                 {% else %}
@@ -37,7 +38,7 @@
                             Articles:
                         </div>
                         <span class="badge">
-                            <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}">{{ user.articles|length }}</a>
+                            <a href="{{ path('article_list_by_author', {'slug':user.slug}) }}#sort_anchor">{{ user.articles|length }}</a>
                         </span>
                     </div>
                     <div class="profile-info">
