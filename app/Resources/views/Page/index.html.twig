@@ -15,7 +15,7 @@
                     </a>
                 </h2>
                 <span class="category">
-                   Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}">{{ article.category }}</a>]
+                   Category:[<a href="{{ path('article_list_by_category', {'slug':article.category.slug}) }}#sort_anchor">{{ article.category }}</a>]
                 </span>
             </section>
             <div class="date">
@@ -53,9 +53,7 @@
                     {% endif %}
                     <span class="glyphicon glyphicon-heart" id="like_hart" style="color:{{ color }}"></span>
                     <span class="badge">
-                        <span style="cursor: pointer;" id="like" data-id="{{ article.id }}" >
-                            {{ article.likes }}
-                        </span>
+                        {{ article.likes }}
                     </span>
                 </p>
                 <p>
@@ -84,7 +82,7 @@
                         Tags:
                         {% for tag in article.tags %}
                             <span class="tag">
-                                <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}">#{{ tag }}</a>
+                                <a href="{{ path('article_list_by_tag', {'slug':tag.slug}) }}#sort_anchor">#{{ tag }}</a>
                             </span>
                         {% endfor %}
                     </p>

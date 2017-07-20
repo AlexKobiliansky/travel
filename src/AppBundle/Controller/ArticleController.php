@@ -21,7 +21,7 @@ class ArticleController extends Controller
      * @Route("/show/{slug}", name="show_article")
      * @ParamConverter("article", class="AppBundle:Article")
      */
-    public function showAction($slug)
+    public function showAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository('AppBundle:Article')->findOneBySlug($slug);
@@ -32,8 +32,13 @@ class ArticleController extends Controller
             );
         }
 
-        $comments = $em->getRepository('AppBundle:Comment')
+        $paginator = $this->get('knp_paginator');
+
+        $allcomments = $em->getRepository('AppBundle:Comment')
             ->getCommentForArticle($article->getId());
+
+        $comments = $em->getRepository('AppBundle:Comment')->getJustParents($allcomments);
+        $comments = $paginator->paginate($comments, $request->query->get('page', 1), 5);
 
         return $this->render('Article/show.html.twig', array(
             'article'  => $article,

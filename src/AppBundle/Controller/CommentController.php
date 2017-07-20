@@ -40,6 +40,7 @@ class CommentController extends Controller
 
             return $this->redirectToRoute('show_article', array(
                 'slug' => $article->getSlug(),
+                '_fragment' => 'comments'
             ));
         }
 

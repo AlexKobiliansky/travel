@@ -112,6 +112,9 @@
                 <div class="subcomment">{% include 'Comment/comments.html.twig' with {'comments':comment.children} %}</div>
             {% endif %}
         {% endfor %}
+        <div class="pager">
+            {{ knp_pagination_render(comments) }}
+        </div>
     {% else %}
         There are no comments on this article. Be the first...
     {% endif %}

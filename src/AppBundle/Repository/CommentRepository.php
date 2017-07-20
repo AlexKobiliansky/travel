@@ -29,4 +29,16 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
         return $comments;
     }
+
+    public function getJustParents($allCommets)
+    {
+        $parentComments = [];
+        foreach ($allCommets as $comment) {
+            if (!$comment->getParent()) {
+                $parentComments[] = $comment;
+            }
+        }
+
+        return $parentComments;
+    }
 }
